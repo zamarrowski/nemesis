@@ -1,13 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import Ionicon from 'react-ionicons'
 
 import LoginForm from './LoginForm'
-import icon from './../icon.png'
-
-const Logo = styled.img`
-  height: 250px;
-  width: auto;
-`
 
 const LoginPageContainer = styled.div`
   height: 100%;
@@ -30,7 +25,7 @@ class LoginPage extends React.Component {
         <div className="row">
           <div className="col-xs-4 col-xs-offset-4">
             <LoginBox>
-                <Logo src={icon}/>
+                <Ionicon icon="ion-happy-outline" color="white" fontSize="150px"/>
                 <LoginForm></LoginForm>
             </LoginBox>
           </div>
