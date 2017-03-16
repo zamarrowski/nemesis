@@ -10,7 +10,7 @@ class ReportCard extends React.Component {
     return(
       <Card>
         <CardHeader
-          title={this._getTextFeeling(this.props.report.feeling, this.props.report.username)}
+          title={this._getTextFeeling(this.props.report.happiness, this.props.report.username)}
           avatar={this.props.report.photo}
           subtitle={this._getDate(this.props.report.date)}
         />
