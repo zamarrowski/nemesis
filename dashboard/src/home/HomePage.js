@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import ReportCard from './../reports/ReportCard'
+import ReportCard from './ReportCard'
 import lastReports from './lastReports.mock.js'
 
 const HomePageContainer = styled.div`
