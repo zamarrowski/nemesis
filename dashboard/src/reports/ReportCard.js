@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, CardActions, CardHeader } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import styled from 'styled-components'
+import { Link } from 'react-router'
 
 class ReportCard extends React.Component {
   render() {
@@ -14,7 +15,7 @@ class ReportCard extends React.Component {
           subtitle={this._getDate(this.props.report.date)}
         />
         <CardActions>
-          <FlatButton label="Reports" style={flatButtonStyles} />
+          <Link to={"/user/" + this.props.report.userId + "/reports"}><FlatButton label="Reports" style={flatButtonStyles} /></Link>
           {this.props.report.comments ? <FlatButton label="Comments" style={flatButtonStyles} /> : ''}
         </CardActions>
       </Card>

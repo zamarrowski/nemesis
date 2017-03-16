@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+
 html, body {
   padding: 0;
   margin: 0;
   height: 100%;
   background-color: #fafcfe;
+  overflow-x: hidden;
+  font-family: 'Roboto', sans-serif;
 }
 
 #root {
