@@ -22,7 +22,7 @@ class ReportCard extends React.Component {
   }
 
   _getDate(date) {
-    return `Reported at ${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+    return `Reported at ${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${String(date.getMinutes()).lenght === 1 ? '0' + date.getMinutes() : date.getMinutes()}:${date.getSeconds()}`
   }
 
   _getTextFeeling(feeling, username) {
