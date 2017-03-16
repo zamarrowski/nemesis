@@ -3,6 +3,8 @@ import styled from 'styled-components'
 
 import ReportCard from './ReportCard'
 import lastReports from './lastReports.mock.js'
+import Alert from './../common/Alert'
+import Ionicon from 'react-ionicons'
 
 const HomePageContainer = styled.div`
   padding: 20px;
@@ -22,6 +24,7 @@ class HomePage extends React.Component {
                 <ReportCard report={report} ></ReportCard>
               </ColReport>
             ))}
+            {!lastReports.length ? <Alert className="col-xs-12"> <Ionicon icon="ion-sad-outline"/> <br/> Last reports not found.</Alert> : ''}
         </div>
       </HomePageContainer>
     )

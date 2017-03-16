@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Avatar from 'material-ui/Avatar'
+import Ionicon from 'react-ionicons'
 
 const Jumbo = styled.div`
   background-color: rgb(216, 218, 219);
@@ -21,11 +22,22 @@ class UserReportJumbo extends React.Component {
   }
 
   _getAverageHappinessText(averageHappiness) {
-    let color = null
-    let AverageHappinessText = styled.h3`
-      color: ${(props) => props.color}
-    `
+    let element = null
 
+    if (averageHappiness) {
+      let AverageHappinessText = styled.h3`
+        color: ${(props) => props.color}
+      `
+      element = (<AverageHappinessText color={this._getAverageHappinessColor.bind(this, averageHappiness)}>Average happiness: {averageHappiness}</AverageHappinessText>)
+    } else {
+      element = (<span><Ionicon icon="ion-sad-outline"/> <br/> Sorry, we don't have the average happiness.</span>)
+    }
+    
+    return element
+  }
+
+  _getAverageHappinessColor(averageHappiness) {
+    let color = null
     if (averageHappiness >= 1 && averageHappiness < 2) {
       color = 'red'
     } else if (averageHappiness >= 2 && averageHappiness < 3) {
@@ -37,10 +49,9 @@ class UserReportJumbo extends React.Component {
     } else if (averageHappiness === 5) {
       color = 'green'
     }
-
-    return (<AverageHappinessText color={color}>Average happiness: {averageHappiness}</AverageHappinessText>)
-
+    return color
   }
+
 }
 
 export default UserReportJumbo
