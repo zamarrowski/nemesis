@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import time
-import constants
-import bot_messages
+
+from nemesis import config
+from nemesis import constants
+from nemesis import bot_messages
 
 from slackclient import SlackClient
+from mongoengine import connect
 
-from models import UserSlack
-from models import UserStatusReport
+from nemesis.models import UserSlack
+from nemesis.models import UserStatusReport
 
 
 class SlackClientNemesis(object):
@@ -71,3 +74,10 @@ class Nemesis(SlackClientNemesis):
     def user_report_status(self, user, status, comments=None):
         UserSlack.report_status(self.get_user_info(user), status, comments)
         self.post_message(user, text=bot_messages.success_message)
+
+
+def main():
+
+    connect(config.mongodb)
+
+    Nemesis(config.token_slack).read()

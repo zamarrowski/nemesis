@@ -3,12 +3,16 @@
 import pytz
 import json
 
-import config
-import constants
+from mongoengine import connect
+
+from nemesis import config
+from nemesis import constants
 
 from datetime import datetime
 from bottle import get, request
-from models import UserSlack, UserStatusReport
+from bottle import run, response
+
+from nemesis.models import UserSlack, UserStatusReport
 
 
 @get('/last-reports/')
@@ -51,3 +55,11 @@ def users_reports():
         global_reports['users_reports'].append(report)
 
     return json.dumps(global_reports)
+
+
+def main():
+    connect(config.mongodb)
+
+    response.content_type = 'application/json'
+
+    run(host='localhost', port=8080)

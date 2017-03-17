@@ -3,8 +3,8 @@
 import pytz
 import datetime
 
-import config
-import constants
+from nemesis import config
+from nemesis import constants
 
 from mongoengine import DynamicDocument, fields
 
