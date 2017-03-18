@@ -5,10 +5,18 @@ import FlatButton from 'material-ui/FlatButton'
 import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import Checkbox from 'material-ui/Checkbox'
+import Avatar from 'material-ui/Avatar'
+
 
 import usersMock from './users.mock'
 
 class SeekerForm extends React.Component {
+
+  constructor() {
+    super()
+    this.state = { users: usersMock }
+  }
+
   render() {
 
     const paperStyles = {
@@ -22,7 +30,7 @@ class SeekerForm extends React.Component {
     return(
       <Paper style={paperStyles} zDepth={1}>
         <List>
-          <Subheader>Select date range</Subheader>
+          <Subheader>Date range</Subheader>
           <ListItem hoverColor="transparent">
             <DatePicker
               textFieldStyle={datePickerStyles}
@@ -42,8 +50,12 @@ class SeekerForm extends React.Component {
         </List>
         <List>
          <Subheader>Users:</Subheader>
-         {usersMock.map((user, key) => (
-           <ListItem primaryText={user.username} key={key} leftCheckbox={<Checkbox />} />
+         {this.state.users.map((user, key) => (
+           <ListItem
+             primaryText={user.username} key={key}
+             leftCheckbox={<Checkbox />}
+             rightAvatar={<Avatar src={user.photo} />}
+            />
          ))}
        </List>
         <FlatButton onTouchTap={this._search.bind(this)} fullWidth={true}>Search</FlatButton>

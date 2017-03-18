@@ -11,10 +11,10 @@ class SeekerPage extends React.Component {
   render() {
     return (
       <SeekerPageContainer className="row">
-        <div className="col-xs-3">
+        <div className="col-xs-12 col-sm-4 col-md-3">
           <SeekerForm/>
         </div>
-        <div className="col-xs-9">
+        <div className="col-xs-12 col-sm-8 col-md-9">
           <h1>Resultados</h1>
         </div>
       </SeekerPageContainer>
