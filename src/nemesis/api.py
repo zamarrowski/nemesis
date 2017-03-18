@@ -3,14 +3,11 @@
 import pytz
 import json
 
-from mongoengine import connect
-
-from nemesis import config
+from nemesis.config import options
 from nemesis import constants
 
 from datetime import datetime
 from bottle import get, request
-from bottle import run, response
 
 from nemesis.models import UserSlack, UserStatusReport
 
@@ -32,7 +29,7 @@ def last_reports(user=None):
 
 def get_utc_from_str(dt_str):
     dt = datetime.strptime(dt_str, '%d-%m-%Y')
-    current_tz = pytz.timezone(config.TIME_ZONE)
+    current_tz = pytz.timezone(options.nemesis_timezone)
     return current_tz.localize(dt)
 
 
@@ -55,11 +52,3 @@ def users_reports():
         global_reports['users_reports'].append(report)
 
     return json.dumps(global_reports)
-
-
-def main():
-    connect(config.mongodb)
-
-    response.content_type = 'application/json'
-
-    run(host='localhost', port=8080)

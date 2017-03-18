@@ -35,8 +35,8 @@ setup(
     install_requires=open('requirements.txt', 'r').read().splitlines(),
     entry_points={
         'console_scripts': [
-            'nemesis_bot = nemesis.bot:main',
-            'nemesis_api = nemesis.api:main',
+            'nemesis_bot = nemesis.main:main_bot',
+            'nemesis_api = nemesis.main:main_api',
         ],
     }
 )

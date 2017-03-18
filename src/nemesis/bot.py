@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import time
+import logging
 
-from nemesis import config
+from slackclient import SlackClient
+
 from nemesis import constants
 from nemesis import bot_messages
 
-from slackclient import SlackClient
-from mongoengine import connect
-
+from nemesis.config import options
 from nemesis.models import UserSlack
 from nemesis.models import UserStatusReport
 
@@ -33,8 +33,8 @@ class SlackClientNemesis(object):
 
 class Nemesis(SlackClientNemesis):
 
-    def __init__(self, token_slack):
-        self.token = token_slack
+    def __init__(self):
+        self.token = options.bot_token_slack
         self.slack_client = SlackClient(self.token)
 
     def read(self):
@@ -42,11 +42,11 @@ class Nemesis(SlackClientNemesis):
 
     def slack_connect(self):
         if self.slack_client.rtm_connect():
-            print("Conectado")
+            logging.info('Connected to Nemesis bot')
             while True:
                 try:
                     for event in self.slack_client.rtm_read():
-                        print(event)
+                        logging.debug(event)
                         event_type = self.get_event_type(event)
                         if event_type == 'user_login' and UserSlack.has_user_reported(event['user']) is False:
                             self.post_message(event['user'], bot_messages.login_message)
@@ -58,10 +58,10 @@ class Nemesis(SlackClientNemesis):
                                 self.post_message(event['user'], text=bot_messages.help_message)
                         time.sleep(0.5)
                 except KeyboardInterrupt:
-                    print("Desconectado")
+                    logging.info('Disconnected. Bye bye Nemesis')
                     break
         else:
-            print("Ups, algo fue mal...")
+            logging.error('Cannot connect to Nemesis bot. Is the token correct?')
 
     def get_event_type(self, event):
         if event['type'] == 'message':
@@ -74,10 +74,3 @@ class Nemesis(SlackClientNemesis):
     def user_report_status(self, user, status, comments=None):
         UserSlack.report_status(self.get_user_info(user), status, comments)
         self.post_message(user, text=bot_messages.success_message)
-
-
-def main():
-
-    connect(config.mongodb)
-
-    Nemesis(config.token_slack).read()

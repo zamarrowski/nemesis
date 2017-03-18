@@ -3,7 +3,7 @@
 import pytz
 import datetime
 
-from nemesis import config
+from nemesis.config import options
 from nemesis import constants
 
 from mongoengine import DynamicDocument, fields
@@ -69,7 +69,7 @@ class UserStatusReport(DynamicDocument):
             comments = text[1]
         return int(status), comments
 
-    def serialize_reported_at(self, timezone=config.TIME_ZONE):
+    def serialize_reported_at(self, timezone=options.nemesis_timezone):
         current_tz = pytz.timezone(timezone)
         reported_at = self.reported_at.replace(tzinfo=pytz.utc).astimezone(current_tz)
         return '{datetime:%d-%m-%Y %H:%M:%S}'.format(datetime=reported_at)
