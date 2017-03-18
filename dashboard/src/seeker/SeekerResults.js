@@ -6,7 +6,7 @@ import Alert from './../common/Alert'
 import ReportCard from './../home/ReportCard'
 
 const ColReport = styled.div`
-  margin-top: 10px;
+  margin-bottom: 10px;
 `
 
 class SeekerResults extends React.Component {
