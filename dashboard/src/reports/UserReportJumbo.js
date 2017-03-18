@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import Avatar from 'material-ui/Avatar'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Ionicon from 'react-ionicons'
+import { Link } from 'react-router'
 
 const Jumbo = styled.div`
   background-color: rgb(216, 218, 219);
@@ -11,10 +13,26 @@ const Jumbo = styled.div`
 
 class UserReportJumbo extends React.Component {
   render() {
-    const avatarStyle = { marginTop: '50px' }
+    const backButtonStyle = {
+      float: 'left',
+      marginTop: '20px',
+      marginLeft: '20px'
+    }
     return(
       <Jumbo>
-        <Avatar src={this.props.report.photo} style={avatarStyle} size={150}/>
+        <div className="row">
+          <div className="col-xs-12">
+            <Link to="/">
+              <FloatingActionButton
+                mini={true}
+                style={backButtonStyle}
+                backgroundColor="rgb(255, 130, 110)">
+                  <Ionicon icon="ion-android-arrow-back"/>
+              </FloatingActionButton>
+            </Link>
+          </div>
+        </div>
+        <Avatar src={this.props.report.photo} size={150}/>
         <h1>{this.props.report.username}</h1>
         {this._getAverageHappinessText(this.props.report.averageHappiness)}
       </Jumbo>
@@ -32,7 +50,7 @@ class UserReportJumbo extends React.Component {
     } else {
       element = (<span><Ionicon icon="ion-sad-outline"/> <br/> Sorry, we don't have the average happiness.</span>)
     }
-    
+
     return element
   }
 
