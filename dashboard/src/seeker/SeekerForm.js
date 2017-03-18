@@ -7,14 +7,11 @@ import Subheader from 'material-ui/Subheader'
 import Checkbox from 'material-ui/Checkbox'
 import Avatar from 'material-ui/Avatar'
 
-
-import usersMock from './users.mock'
-
 class SeekerForm extends React.Component {
 
-  constructor() {
-    super()
-    this.state = { users: usersMock }
+  constructor(props) {
+    super(props)
+    this.state = { users: this.props.users }
   }
 
   render() {
@@ -53,7 +50,9 @@ class SeekerForm extends React.Component {
          {this.state.users.map((user, key) => (
            <ListItem
              primaryText={user.username} key={key}
-             leftCheckbox={<Checkbox />}
+             leftCheckbox={
+               <Checkbox onCheck={this._selectUser.bind(this, user)} />
+             }
              rightAvatar={<Avatar src={user.photo} />}
             />
          ))}
@@ -64,7 +63,20 @@ class SeekerForm extends React.Component {
   }
 
   _search() {
-    console.log(this._minDateInput.state.date)
+    let searchInfo = {
+      minDate: this._minDateInput.state.date,
+      maxDate: this._maxDateInput.state.date,
+      users: this.state.users.filter(user => user.selected)
+    }
+    this.props.onSearch(searchInfo)
+  }
+
+  _selectUser(userSelected) {
+    let usersList = this.state.users
+    for (let user of usersList) {
+      if (user.id === userSelected.id) user.selected = !user.selected
+    }
+    this.setState({ users: usersList })
   }
 
 }
