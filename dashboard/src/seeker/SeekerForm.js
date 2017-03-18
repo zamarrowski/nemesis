@@ -6,6 +6,12 @@ import { List, ListItem } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import Checkbox from 'material-ui/Checkbox'
 import Avatar from 'material-ui/Avatar'
+import styled from 'styled-components'
+
+const UserBox = styled.div`
+  max-height: 300px;
+  overflow-y: auto;
+`
 
 class SeekerForm extends React.Component {
 
@@ -47,15 +53,17 @@ class SeekerForm extends React.Component {
         </List>
         <List>
          <Subheader>Users:</Subheader>
-         {this.state.users.map((user, key) => (
-           <ListItem
-             primaryText={user.username} key={key}
-             leftCheckbox={
-               <Checkbox onCheck={this._selectUser.bind(this, user)} />
-             }
-             rightAvatar={<Avatar src={user.photo} />}
-            />
-         ))}
+         <UserBox>
+           {this.state.users.map((user, key) => (
+             <ListItem
+               primaryText={user.username} key={key}
+               leftCheckbox={
+                 <Checkbox onCheck={this._selectUser.bind(this, user)} />
+               }
+               rightAvatar={<Avatar src={user.photo} />}
+              />
+           ))}
+         </UserBox>
        </List>
         <FlatButton onTouchTap={this._search.bind(this)} fullWidth={true}>Search</FlatButton>
       </Paper>

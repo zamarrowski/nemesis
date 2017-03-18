@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Alert = styled.div`
-  color: black;
+  color: white;
   padding: 20px;
   background-color: rgba(255, 130, 110, 0.77);
   text-align: center;
