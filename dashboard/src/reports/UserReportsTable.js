@@ -2,6 +2,8 @@ import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
 import Dialog from 'material-ui/Dialog'
+const flatButtonStyles = { color: 'rgb(255, 130, 110)' }
+
 
 class UserReportCard extends React.Component {
 
@@ -14,13 +16,14 @@ class UserReportCard extends React.Component {
     this.modalActions = [
       <FlatButton
         label="Cancel"
-        primary={true}
+        style={flatButtonStyles}
         onTouchTap={this._handleCloseModal.bind(this)}
       />
     ]
   }
 
   render() {
+
     return(
       <div className="col-xs-12 col-md-6 col-md-offset-3 col-lg-8 col-lg-offset-2">
         <Table selectable={false}>
@@ -37,7 +40,7 @@ class UserReportCard extends React.Component {
                 <TableRowColumn>{report.happiness}</TableRowColumn>
                 <TableRowColumn>{this._getDate(report.date)}</TableRowColumn>
                 <TableRowColumn>
-                  {report.comments ? <FlatButton label="See comments" onClick={this._showCommentsModal.bind(this, report)} /> : ''}
+                  {report.comments ? <FlatButton label="See comments" style={flatButtonStyles} onClick={this._showCommentsModal.bind(this, report)} /> : ''}
                 </TableRowColumn>
               </TableRow>
             ))}
