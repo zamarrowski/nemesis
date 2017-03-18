@@ -4,6 +4,7 @@ import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import Ionicon from 'react-ionicons'
+import { browserHistory } from 'react-router'
 
 class Header extends React.Component {
   render() {
@@ -24,13 +25,19 @@ class Header extends React.Component {
                 <Ionicon icon="ion-android-more-vertical" color="white"/>
               </IconButton>
           }>
-            <MenuItem primaryText="Search reports" />
-            <MenuItem primaryText="Logout" />
+            <MenuItem onTouchTap={this._redirectTo.bind(this, '/')} primaryText="Home" />
+            <MenuItem onTouchTap={this._redirectTo.bind(this, '/seeker')} primaryText="Search reports" />
+            <MenuItem onTouchTap={this._redirectTo.bind(this, '/login')} primaryText="Logout" />
           </IconMenu>
         }
         />
     )
   }
+
+  _redirectTo(route) {
+    browserHistory.push(route)
+  }
+
 }
 
 export default Header
