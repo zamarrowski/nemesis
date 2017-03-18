@@ -20,7 +20,7 @@ class SeekerResults extends React.Component {
 
   _getNodeResults() {
     return this.props.results.map((result, key) => (
-      <ColReport className="col-lg-4 col-md-6 col-xs-12" key={key}>
+      <ColReport className="col-xs-12 col-md-6 col-lg-4" key={key}>
         <ReportCard report={result}></ReportCard>
       </ColReport>
     ))

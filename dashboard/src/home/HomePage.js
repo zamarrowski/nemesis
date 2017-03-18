@@ -20,7 +20,7 @@ class HomePage extends React.Component {
       <HomePageContainer>
         <div className="row">
             {lastReports.map((report, index) => (
-              <ColReport className="col-lg-4 col-md-6 col-xs-12" key={index}>
+              <ColReport className="col-xs-12 col-sm-6 col-md-4" key={index}>
                 <ReportCard report={report} ></ReportCard>
               </ColReport>
             ))}
