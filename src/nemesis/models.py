@@ -7,6 +7,7 @@ from nemesis.config import options
 from nemesis import constants
 
 from mongoengine import DynamicDocument, fields
+from mongoengine.errors import DoesNotExist
 
 
 class UserSlack(DynamicDocument):
@@ -22,6 +23,13 @@ class UserSlack(DynamicDocument):
             'realname': self.realname,
             'avatar': self.avatar
         }
+
+    @staticmethod
+    def get_user(slack_id):
+        try:
+            return UserSlack.objects.get(slack_id=slack_id)
+        except DoesNotExist:
+            return None
 
     @staticmethod
     def has_user_reported(user):
