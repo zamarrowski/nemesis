@@ -1,45 +1,26 @@
 import React from 'react'
-import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
+import getURLParameters from './getURLParameters'
+import loginServices from './loginServices'
 
 class LoginForm extends React.Component {
-  render() {
 
-    const styles = {
-      underlineStyle: {
-        borderColor: 'white',
-      },
-      floatingLabelStyle: {
-        color: 'white',
-      },
-      style: {
-        color: 'white',
-      },
-      size: {
-        width: '100%'
-      }
+  constructor() {
+    super()
+    let params = getURLParameters()
+    console.log(params)
+    if (params.code) {
+      loginServices.login(params.code).then(response => {
+        console.log(response)
+      })
     }
+  }
 
+  render() {
     return(
         <div>
-          <TextField
-            floatingLabelText="Username"
-            inputStyle={styles.style}
-            style={styles.size}
-            underlineFocusStyle={styles.underlineStyle}
-            floatingLabelStyle={styles.floatingLabelStyle}>
-          </TextField>
-
-          <TextField
-            floatingLabelText="Password"
-            type="password"
-            inputStyle={styles.style}
-            style={styles.size}
-            underlineFocusStyle={styles.underlineStyle}
-            floatingLabelStyle={styles.floatingLabelStyle}>
-          </TextField>
-
-          <RaisedButton label="Login" fullWidth={true}></RaisedButton>
+          <a href="https://slack.com/oauth/authorize?scope=identity.basic&client_id=155087779333.156380766404">
+            <img alt="slack_button" src="https://api.slack.com/img/sign_in_with_slack.png" />
+          </a>
         </div>
     )
   }
