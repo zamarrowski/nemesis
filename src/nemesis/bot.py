@@ -34,7 +34,7 @@ class SlackClientNemesis(object):
 class Nemesis(SlackClientNemesis):
 
     def __init__(self):
-        self.token = options.bot_token_slack
+        self.token = options.slack_token_bot_slack
         self.slack_client = SlackClient(self.token)
 
     def read(self):

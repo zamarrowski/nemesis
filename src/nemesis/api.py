@@ -13,19 +13,12 @@ from nemesis.config import options
 from nemesis.models import UserSlack, UserStatusReport
 
 
-client_id = '155087779333.156380766404'
-client_secret = '450fe2b89e125113a82e13af8b2b2af9'
-oauth_scope = 'admin'
-
-
 def authorize(request):
     def check_token(api_func):
         def wrapper(**kwds):
             auth_token = request.headers.get('Token')
-            print(auth_token)
             if auth_token is not None:
-                res = SlackClient(auth_token).api_call("users.identity", scope="identity.basic")
-                print(res)
+                res = SlackClient(auth_token).api_call("users.identity", scope=constants.oauth_scope)
                 if res['ok'] is False:
                     abort(401, "Not authorized")
                 return api_func(**kwds)
@@ -33,11 +26,6 @@ def authorize(request):
                 abort(401, "Not authorized")
         return wrapper
     return check_token
-
-
-@get("/begin_auth")
-def pre_install():
-    return '<a href="https://slack.com/oauth/authorize?scope=identity.basic&client_id=155087779333.156380766404"><img alt="Sign in with Slack" height="40" width="172" src="https://platform.slack-edge.com/img/sign_in_with_slack.png" srcset="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x" /></a>'
 
 
 @get("/auth-token/")
@@ -48,8 +36,8 @@ def auth_token():
     slack_client = SlackClient("")
     auth_response = slack_client.api_call(
         "oauth.access",
-        client_id=client_id,
-        client_secret=client_secret,
+        client_id=options.slack_client_id,
+        client_secret=options.slack_client_secret,
         code=auth_code
     )
 
@@ -81,6 +69,7 @@ def get_utc_from_str(dt_str):
 
 
 @get('/users-reports/')
+@authorize(request)
 def users_reports():
     users = request.query.users.split(',')
     start_date = get_utc_from_str(request.query.start_date)

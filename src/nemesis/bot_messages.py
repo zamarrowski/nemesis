@@ -16,7 +16,7 @@ login_message = get_login_message()
 
 help_message = u'use (X: comments)'
 
-dashboard = ' http://localhost:8080/last-reports/'
+dashboard = u' http://localhost:8080/last-reports/'
 
 success_message = u'Muchas gracias! Recuerda que puedes ver el estado'
 success_message += 'de felicidad de tus compañeros en el siguiente enlace\n {dashboard}'.format(dashboard=dashboard)
