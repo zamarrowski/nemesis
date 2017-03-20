@@ -24,11 +24,11 @@ def main():
 
     connect(
         db=options.mongodb_db,
-        # username=options.mongodb_username,
-        # password=options.mongodb_password,
-        # host=options.mongodb_host,
-        # port=options.mongodb_port,
-        # authentication_source=options.mongodb_auth_database
+        username=options.mongodb_username,
+        password=options.mongodb_password,
+        host=options.mongodb_host,
+        port=int(options.mongodb_port),
+        authentication_source=options.mongodb_auth_database
     )
 
 
@@ -45,4 +45,8 @@ def main_api():
 
     from nemesis import api
     response.content_type = 'application/json'
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+
     run(host=options.api_host, port=options.api_port)

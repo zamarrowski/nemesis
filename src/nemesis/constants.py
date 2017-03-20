@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 OAUTH_SCOPE = 'identity.basic'
-BOT_USER = 'U4JTDQZEX'
 
 MAX_LAST_REPORTS = 10
 
