@@ -1,0 +1,7 @@
+version: '2'
+services:
+  nemesis-frontend:
+   build: .
+   container_name: nemesis-frontend
+   ports:
+    - 80:80
