@@ -6,45 +6,20 @@ import json
 from datetime import datetime
 
 from slackclient import SlackClient
-from bottle import get, request, abort, response, hook, route
+from bottle import request, abort, response, hook, route
 
 from nemesis import constants
 from nemesis.config import options
 from nemesis.models import UserSlack, UserStatusReport
 
 
-_allow_origin = '*'
-_allow_methods = 'PUT, GET, POST, DELETE, OPTIONS'
-_allow_headers = 'Authorization, Origin, Accept, Content-Type, X-Requested-With'
-
-
 @hook('after_request')
-def enable_cors():
-    '''Add headers to enable CORS'''
+def set_response():
 
     response.content_type = 'application/json'
-    response.headers['Access-Control-Allow-Origin'] = _allow_origin
-    response.headers['Access-Control-Allow-Methods'] = _allow_methods
-    response.headers['Access-Control-Allow-Headers'] = _allow_headers
-
-
-@route('/', method='OPTIONS')
-@route('/<path:path>', method='OPTIONS')
-def options_handler(path=None):
-    return
-
-
-# def enable_cors(fn):
-#     def _enable_cors(*args, **kwargs):
-#         response.content_type = 'application/json'
-#         response.headers['Access-Control-Allow-Origin'] = '*'
-#         response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
-#         response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
-#
-#         if request.method != 'OPTIONS':
-#             return fn(*args, **kwargs)
-#
-#     return _enable_cors
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Authorization, Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
 
 def authorize(request):
@@ -62,8 +37,13 @@ def authorize(request):
     return check_token
 
 
-@get("/auth-token/")
-# @enable_cors
+@route('/', method='OPTIONS')
+@route('/<path:path>', method='OPTIONS')
+def options_handler(path=None):
+    return
+
+
+@route("/auth-token/", method='GET')
 def auth_token():
 
     auth_code = request.query.code
@@ -79,10 +59,9 @@ def auth_token():
     return json.dumps(auth_response)
 
 
-@get('/last-reports/')
-@get('/last-reports/<user>/')
+@route('/last-reports/', method='GET')
+@route('/last-reports/<user>/', method='GET')
 @authorize(request)
-# @enable_cors
 def last_reports(user=None):
     query = UserStatusReport.objects.all()
     if user is not None:
@@ -98,9 +77,8 @@ def last_reports(user=None):
     return json.dumps(reports)
 
 
-@get('/users/')
+@route('/users/', method='GET')
 @authorize(request)
-# @enable_cors
 def users():
     users = []
     for user in UserSlack.objects.all():
@@ -114,9 +92,8 @@ def get_utc_from_str(dt_str):
     return current_tz.localize(dt)
 
 
-@get('/users-reports/')
+@route('/users-reports/', method='GET')
 @authorize(request)
-# @enable_cors
 def users_reports():
     users = request.query.users.split(',')
     start_date = get_utc_from_str(request.query.start_date)

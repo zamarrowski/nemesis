@@ -5,9 +5,7 @@ import logging
 
 from slackclient import SlackClient
 
-from nemesis import constants
 from nemesis import bot_messages
-
 from nemesis.config import options
 from nemesis.models import UserSlack
 from nemesis.models import UserStatusReport
