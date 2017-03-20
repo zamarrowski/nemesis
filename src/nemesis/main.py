@@ -44,9 +44,4 @@ def main_api():
     main()
 
     from nemesis import api
-    response.content_type = 'application/json'
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
-
     run(host=options.api_host, port=options.api_port)

@@ -6,11 +6,26 @@ import json
 from datetime import datetime
 
 from slackclient import SlackClient
-from bottle import get, request, abort
+from bottle import get, request, abort, response
 
 from nemesis import constants
 from nemesis.config import options
 from nemesis.models import UserSlack, UserStatusReport
+
+
+def enable_cors(fn):
+    def _enable_cors(*args, **kwargs):
+        # set CORS headers
+        response.content_type = 'application/json'
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+
+        if request.method != 'OPTIONS':
+            # actual request; reply with the actual response
+            return fn(*args, **kwargs)
+
+    return _enable_cors
 
 
 def authorize(request):
@@ -47,6 +62,7 @@ def auth_token():
 @get('/last-reports/')
 @get('/last-reports/<user>/')
 @authorize(request)
+@enable_cors
 def last_reports(user=None):
     query = UserStatusReport.objects.all()
     if user is not None:
@@ -64,6 +80,7 @@ def last_reports(user=None):
 
 @get('/users/')
 @authorize(request)
+@enable_cors
 def users():
     users = []
     for user in UserSlack.objects.all():

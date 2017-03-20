@@ -58,3 +58,19 @@ docs/_build/
 # PyBuilder
 target/
 Contact GitHub API Training Shop Blog About
+
+# dependencies
+node_modules/
+
+# testing
+coverage/
+
+# production
+build/
+
+# misc
+.DS_Store
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
