@@ -10,20 +10,16 @@ class ReportCard extends React.Component {
     return(
       <Card>
         <CardHeader
-          title={this._getTextFeeling(this.props.report.happiness, this.props.report.username)}
-          avatar={this.props.report.photo}
-          subtitle={this._getDate(this.props.report.date)}
+          title={this._getTextFeeling(this.props.report.status_level, this.props.report.user.username)}
+          avatar={this.props.report.user.avatar}
+          subtitle={`Reported at ${this.props.report.reported_at}`}
         />
         <CardActions>
-          <Link to={"/user/" + this.props.report.userId + "/reports"}><FlatButton label="Reports" style={flatButtonStyles} /></Link>
+          <Link to={"/user/" + this.props.report.user.slack_id + "/reports"}><FlatButton label="Reports" style={flatButtonStyles} /></Link>
           {this.props.report.comments ? <FlatButton label="Comments" style={flatButtonStyles} /> : ''}
         </CardActions>
       </Card>
     )
-  }
-
-  _getDate(date) {
-    return `Reported at ${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${String(date.getMinutes()).lenght === 1 ? '0' + date.getMinutes() : date.getMinutes()}:${date.getSeconds()}`
   }
 
   _getTextFeeling(feeling, username) {

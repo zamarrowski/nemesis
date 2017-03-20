@@ -1,16 +1,19 @@
 import React from 'react'
 import getURLParameters from './getURLParameters'
 import loginServices from './loginServices'
+import { browserHistory } from 'react-router'
+
 
 class LoginForm extends React.Component {
 
   constructor() {
     super()
     let params = getURLParameters()
-    console.log(params)
+    localStorage.token = null
     if (params.code) {
       loginServices.login(params.code).then(response => {
-        console.log(response)
+        localStorage.token = response.data.access_token
+        browserHistory.push('/')
       })
     }
   }

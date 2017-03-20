@@ -6,6 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import 'flexboxgrid'
 
 import './index.css'
+import './axios.config'
 import routes from './routes'
 injectTapEventPlugin()
 

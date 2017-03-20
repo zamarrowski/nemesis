@@ -50,7 +50,7 @@ def options_handler(path=None):
 def authorize(request):
     def check_token(api_func):
         def wrapper(**kwds):
-            auth_token = request.headers.get('Token')
+            auth_token = request.headers.get('Authorization')
             if auth_token is not None:
                 res = SlackClient(auth_token).api_call("users.identity", scope=constants.OAUTH_SCOPE)
                 if res['ok'] is False:
