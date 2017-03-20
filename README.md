@@ -1,2 +1,2 @@
 # nemesis
-Slackbot that track the hapiness of your team :)
+Slackbot that track the happiness of your team :)
