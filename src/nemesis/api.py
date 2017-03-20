@@ -15,14 +15,12 @@ from nemesis.models import UserSlack, UserStatusReport
 
 def enable_cors(fn):
     def _enable_cors(*args, **kwargs):
-        # set CORS headers
         response.content_type = 'application/json'
         response.headers['Access-Control-Allow-Origin'] = '*'
         response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
         response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
         if request.method != 'OPTIONS':
-            # actual request; reply with the actual response
             return fn(*args, **kwargs)
 
     return _enable_cors
@@ -44,6 +42,7 @@ def authorize(request):
 
 
 @get("/auth-token/")
+@enable_cors
 def auth_token():
 
     auth_code = request.query.code
@@ -96,6 +95,7 @@ def get_utc_from_str(dt_str):
 
 @get('/users-reports/')
 @authorize(request)
+@enable_cors
 def users_reports():
     users = request.query.users.split(',')
     start_date = get_utc_from_str(request.query.start_date)
