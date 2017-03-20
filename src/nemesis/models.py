@@ -16,7 +16,7 @@ class UserSlack(DynamicDocument):
     realname = fields.StringField(required=True)
     avatar = fields.StringField(required=False)
 
-    def user_serialize(self):
+    def serialize(self):
         return {
             'slack_id': self.slack_id,
             'username': self.username,
@@ -84,7 +84,7 @@ class UserStatusReport(DynamicDocument):
 
     def serialize(self):
         return {
-            'user': self.user.user_serialize(),
+            'user': self.user.serialize(),
             'status_str': self.get_status_display(),
             'status_level': self.status,
             'reported_at': self.serialize_reported_at(),

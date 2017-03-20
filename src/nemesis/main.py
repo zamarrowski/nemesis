@@ -24,11 +24,11 @@ def main():
 
     connect(
         db=options.mongodb_db,
-        # username=options.mongodb_username,
-        # password=options.mongodb_password,
-        # host=options.mongodb_host,
-        # port=options.mongodb_port,
-        # authentication_source=options.mongodb_auth_database
+        username=options.mongodb_username,
+        password=options.mongodb_password,
+        host=options.mongodb_host,
+        port=int(options.mongodb_port),
+        authentication_source=options.mongodb_auth_database
     )
 
 

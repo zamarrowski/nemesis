@@ -15,6 +15,12 @@ from nemesis.models import UserStatusReport
 
 class SlackClientNemesis(object):
 
+    def get_bot_info(self):
+        bot_info = self.slack_client.api_call("auth.test")
+        if 'ok' in bot_info and bot_info['ok'] is True:
+            return bot_info['user_id']
+        return None
+
     def get_channel_info(self, channel):
         return self.slack_client.api_call("channels.info", channel=channel)
 
@@ -36,6 +42,7 @@ class Nemesis(SlackClientNemesis):
     def __init__(self):
         self.token = options.slack_token_bot_slack
         self.slack_client = SlackClient(self.token)
+        self.bot_id = self.get_bot_info()
 
     def read(self):
         self.slack_connect()
@@ -66,7 +73,7 @@ class Nemesis(SlackClientNemesis):
     def get_event_type(self, event):
         if event['type'] == 'message':
             channel = self.get_channel_info(event['channel'])
-            if channel['ok'] is False and event['user'] != constants.BOT_USER:
+            if channel['ok'] is False and event['user'] != self.bot_id:
                 return 'user_post_message'
         if event['type'] == 'presence_change' and event['presence'] == 'active':
             return 'user_login'

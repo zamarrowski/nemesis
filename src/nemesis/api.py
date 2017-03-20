@@ -18,7 +18,7 @@ def authorize(request):
         def wrapper(**kwds):
             auth_token = request.headers.get('Token')
             if auth_token is not None:
-                res = SlackClient(auth_token).api_call("users.identity", scope=constants.oauth_scope)
+                res = SlackClient(auth_token).api_call("users.identity", scope=constants.OAUTH_SCOPE)
                 if res['ok'] is False:
                     abort(401, "Not authorized")
                 return api_func(**kwds)
@@ -60,6 +60,15 @@ def last_reports(user=None):
         reports.append(status.serialize())
 
     return json.dumps(reports)
+
+
+@get('/users/')
+@authorize(request)
+def users():
+    users = []
+    for user in UserSlack.objects.all():
+        users.append(user.serialize())
+    return json.dumps(users)
 
 
 def get_utc_from_str(dt_str):
