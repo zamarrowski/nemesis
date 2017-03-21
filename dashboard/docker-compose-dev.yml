@@ -1,0 +1,11 @@
+version: '2'
+services:
+  nemesis-frontend-dev:
+   build:
+     context: .
+     dockerfile: Dockerfiledev
+   volumes:
+    - .:/usr/src/app
+   container_name: nemesis-frontend-dev
+   ports:
+    - 3000:3000

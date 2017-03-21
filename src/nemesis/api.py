@@ -65,10 +65,13 @@ def last_user_reports(user):
     user = UserSlack.get_user(user)
     if user is None:
         abort(400)
-    query = UserStatusReport.objects.filter(user=user)
     result = user.serialize()
+
+    query = UserStatusReport.objects.filter(user=user)
+    query = query.order_by('-reported_at')[0:constants.MAX_LAST_REPORTS]
+    result.update({'status_avg': query.average('status')})
     reports = []
-    for status in query.order_by('-reported_at')[0:constants.MAX_LAST_REPORTS]:
+    for status in query:
         reports.append(status.serialize())
     result.update({'reports': reports})
 
@@ -115,9 +118,9 @@ def users_reports():
 
     global_reports = {'global_status_avg': query.average('status'), 'users_reports': []}
     for user in users:
-        query = query.filter(user=user)
-        report = {'user_avg': query.average('status'), 'user': user.serialize(), 'reports': []}
-        for user_report in query.filter(user=user).order_by('-reported_at'):
+        user_query = query.filter(user=user)
+        report = {'user_avg': user_query.average('status'), 'user': user.serialize(), 'reports': []}
+        for user_report in user_query.filter(user=user).order_by('-reported_at'):
             report['reports'].append(user_report.serialize())
         global_reports['users_reports'].append(report)
 
