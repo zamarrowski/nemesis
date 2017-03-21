@@ -59,20 +59,30 @@ def auth_token():
     return json.dumps(auth_response)
 
 
-@route('/last-reports/', method='GET')
 @route('/last-reports/<user>/', method='GET')
 @authorize(request)
-def last_reports(user=None):
-    query = UserStatusReport.objects.all()
-    if user is not None:
-        user = UserSlack.get_user(user)
-        if user is None:
-            return json.dumps([])
-        query = query.filter(user=user)
-
+def last_user_reports(user):
+    user = UserSlack.get_user(user)
+    if user is None:
+        abort(400)
+    query = UserStatusReport.objects.filter(user=user)
+    result = user.serialize()
     reports = []
     for status in query.order_by('-reported_at')[0:constants.MAX_LAST_REPORTS]:
         reports.append(status.serialize())
+    result.update({'reports': reports})
+
+    return json.dumps(result)
+
+
+@route('/last-reports/', method='GET')
+@authorize(request)
+def last_reports():
+    query = UserStatusReport.objects.all()
+
+    reports = []
+    for status in query.order_by('-reported_at')[0:constants.MAX_LAST_REPORTS]:
+        reports.append(status.serialize(user=True))
 
     return json.dumps(reports)
 
@@ -106,7 +116,7 @@ def users_reports():
     global_reports = {'global_status_avg': query.average('status'), 'users_reports': []}
     for user in users:
         query = query.filter(user=user)
-        report = {'user_avg': query.average('status'), 'reports': []}
+        report = {'user_avg': query.average('status'), 'user': user.serialize(), 'reports': []}
         for user_report in query.filter(user=user).order_by('-reported_at'):
             report['reports'].append(user_report.serialize())
         global_reports['users_reports'].append(report)

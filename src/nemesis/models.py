@@ -82,14 +82,16 @@ class UserStatusReport(DynamicDocument):
         reported_at = self.reported_at.replace(tzinfo=pytz.utc).astimezone(current_tz)
         return '{datetime:%d-%m-%Y %H:%M:%S}'.format(datetime=reported_at)
 
-    def serialize(self):
-        return {
-            'user': self.user.serialize(),
+    def serialize(self, user=False):
+        user_status_report = {
             'status_str': self.get_status_display(),
             'status_level': self.status,
             'reported_at': self.serialize_reported_at(),
             'comments': self.comments
         }
+        if user is True:
+            user_status_report.update({'user': self.user.serialize()})
+        return user_status_report
 
     def update(self, status, comments):
         self.status = status
