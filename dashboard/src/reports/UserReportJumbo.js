@@ -13,31 +13,48 @@ const Jumbo = styled.div`
 `
 
 class UserReportJumbo extends React.Component {
+
   render() {
-    const backButtonStyle = {
-      float: 'left',
-      marginTop: '20px',
-      marginLeft: '20px'
-    }
     return(
       <Jumbo>
-        <div className="row">
-          <div className="col-xs-12">
-            <Link to="/">
-              <FloatingActionButton
-                mini={true}
-                style={backButtonStyle}
-                backgroundColor={colors.main}>
-                  <Ionicon icon="ion-android-arrow-back"/>
-              </FloatingActionButton>
-            </Link>
-          </div>
-        </div>
-        <Avatar src={this.props.report.avatar} size={150}/>
-        <h1>{this.props.report.username}</h1>
-        {this._getAverageHappinessText(this.props.report.averageHappiness)}
+        {this._getJumbo()}
       </Jumbo>
     )
+  }
+
+  _getJumbo() {
+    let element = null
+    if (this.props.report.reports.length) {
+      const backButtonStyle = {
+        float: 'left',
+        marginTop: '20px',
+        marginLeft: '20px'
+      }
+      element = (
+        <div>
+          <div className="row">
+            <div className="col-xs-12">
+              <Link to="/">
+                <FloatingActionButton
+                  mini={true}
+                  style={backButtonStyle}
+                  backgroundColor={colors.main}>
+                    <Ionicon icon="ion-android-arrow-back"/>
+                </FloatingActionButton>
+              </Link>
+            </div>
+          </div>
+          <Avatar src={this.props.report.avatar} size={150}/>
+          <h1>{this.props.report.username}</h1>
+          {this._getAverageHappinessText(this.props.report.averageHappiness)}
+        </div>
+      )
+    } else {
+      element = (
+        <Ionicon fontSize="100px" style={{margin: '0 auto', marginTop: '20px'}} rotate={true} color={colors.main} icon="ion-load-c"/>
+      )
+    }
+    return element
   }
 
   _getAverageHappinessText(averageHappiness) {

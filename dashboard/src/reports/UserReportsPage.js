@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import Ionicon from 'react-ionicons'
 
 import UserReportJumbo from './UserReportJumbo'
 import UserReportsTable from './UserReportsTable'
-import Alert from './../common/Alert'
 import reportServices from './reportServices'
 
 const UserReportsContainer = styled.div`
@@ -16,12 +14,13 @@ class UserReportsPage extends React.Component {
 
   constructor() {
     super()
-    this.state = { userReport: { reports: [] } }
+    this.state = { userReport: { reports: [] }, loading: false }
   }
 
   componentDidMount() {
+    this.setState({ loading: true })
     reportServices.getUserReports(this.props.params.id).then(response => {
-      this.setState({ userReport: response.data })
+      this.setState({ userReport: response.data, loading: false })
     })
   }
 
@@ -33,7 +32,7 @@ class UserReportsPage extends React.Component {
             <UserReportsContainer>
               {this.state.userReport.reports.length ? <h1>Last reports</h1> : ''}
               <div className="row">
-                {this.state.userReport.reports.length ? <UserReportsTable reports={this.state.userReport.reports}></UserReportsTable> : <Alert className="col-xs-12"> <Ionicon icon="ion-sad-outline"/> <br/> Last reports not found.</Alert>}
+                <UserReportsTable reports={this.state.userReport.reports}/>
               </div>
             </UserReportsContainer>
           </div>

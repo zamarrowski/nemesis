@@ -2,9 +2,10 @@ import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
 import Dialog from 'material-ui/Dialog'
-import colors from './../common/colors'
-const flatButtonStyles = { color: colors.main }
 
+import colors from './../common/colors'
+
+const flatButtonStyles = { color: colors.main }
 
 class UserReportCard extends React.Component {
 

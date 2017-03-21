@@ -79,6 +79,26 @@ class SeekerForm extends React.Component {
     )
   }
 
+  _getUsersNode() {
+    let element = null
+    if (this.props.users.length) {
+      element = (
+        this.props.users.map((user, key) => (
+          <ListItem
+            primaryText={user.username} key={key}
+            leftCheckbox={
+              <Checkbox iconStyle={{fill: colors.main}} onCheck={this._selectUser.bind(this, user)} />
+            }
+            rightAvatar={<Avatar src={user.avatar} />}
+           />
+        ))
+      )
+    } else {
+      element = (<Ionicon fontSize="30px" style={{marginLeft: '45%'}} rotate={true} color={colors.main} icon="ion-load-c"/>)
+    }
+    return element
+  }
+
   _search() {
     let usersSelected = this.props.users.filter(user => user.selected)
     if (this._minDateInput.state.date && this._maxDateInput.state.date && usersSelected.length) {
@@ -99,24 +119,6 @@ class SeekerForm extends React.Component {
     let usersList = this.props.users
     for (let user of usersList) {
       if (user.id === userSelected.id) user.selected = !user.selected
-    }
-  }
-
-  _getUsersNode() {
-    if (this.props.users.length) {
-      return (
-        this.props.users.map((user, key) => (
-          <ListItem
-            primaryText={user.username} key={key}
-            leftCheckbox={
-              <Checkbox iconStyle={{fill: colors.main}} onCheck={this._selectUser.bind(this, user)} />
-            }
-            rightAvatar={<Avatar src={user.avatar} />}
-           />
-        ))
-      )
-    } else {
-      return (<Ionicon fontSize="30px" style={{marginLeft: '45%'}} rotate={true} color={colors.main} icon="ion-load-c"/>)
     }
   }
 
