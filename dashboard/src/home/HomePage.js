@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
+import CircularProgress from 'material-ui/CircularProgress'
+import Ionicon from 'react-ionicons'
 
 import ReportCard from './ReportCard'
 import Alert from './../common/Alert'
-import Ionicon from 'react-ionicons'
 import reportServices from './../reports/reportServices'
+import colors from './../common/colors'
 
 const HomePageContainer = styled.div`
   padding: 20px;
@@ -18,12 +20,14 @@ class HomePage extends React.Component {
 
   constructor() {
     super()
-    this.state = { lastReports: [] }
+    this.state = { lastReports: [], loading: false }
   }
 
   componentDidMount() {
+    this.setState({ loading: true })
     reportServices.getLastReports().then(response => {
       this.setState({ lastReports: response.data })
+      this.setState({ loading: false })
     })
   }
 
@@ -36,7 +40,8 @@ class HomePage extends React.Component {
                 <ReportCard report={report} ></ReportCard>
               </ColReport>
             ))}
-            {!this.state.lastReports.length ? <Alert className="col-xs-12"> <Ionicon icon="ion-sad-outline"/> <br/> Last reports not found.</Alert> : ''}
+            {this.state.loading ? <Ionicon fontSize="100px" style={{margin: '0 auto'}} rotate={true} color={colors.main} icon="ion-load-c"></Ionicon> : ''}
+            {!this.state.lastReports.length && !this.state.loading ? <Alert className="col-xs-12"> <Ionicon icon="ion-sad-outline"/> <br/> Last reports not found.</Alert> : ''}
         </div>
       </HomePageContainer>
     )
