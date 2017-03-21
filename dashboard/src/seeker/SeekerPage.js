@@ -45,15 +45,28 @@ class SeekerPage extends React.Component {
       end_date: this._parseDate(searchInfo.maxDate),
       users: searchInfo.users.map(user => user.slack_id).join(',')
     }
-    console.log(parseInfo)
+    
     reportServices.searchReports(parseInfo).then(response => {
-      console.log(response.data)
+      let reports = this._parseResponse(response.data)
+      this.setState({ results: reports })
     })
-    //this.setState({ results: reportsMock })
+
   }
 
   _parseDate(date) {
-    return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
+    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+  }
+
+  _parseResponse(response) {
+    let userReports = response.users_reports
+    let reports = []
+    for (let userReport of userReports) {
+      for (let report of userReport.reports) {
+        report.user = userReport.user
+        reports.push(report)
+      }
+    }
+    return reports
   }
 
 }
