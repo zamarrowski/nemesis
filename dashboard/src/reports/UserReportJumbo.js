@@ -33,7 +33,7 @@ class UserReportJumbo extends React.Component {
             </Link>
           </div>
         </div>
-        <Avatar src={this.props.report.photo} size={150}/>
+        <Avatar src={this.props.report.avatar} size={150}/>
         <h1>{this.props.report.username}</h1>
         {this._getAverageHappinessText(this.props.report.averageHappiness)}
       </Jumbo>

@@ -38,8 +38,8 @@ class UserReportCard extends React.Component {
           <TableBody displayRowCheckbox={false}>
             {this.props.reports.map((report, key) => (
               <TableRow key={key}>
-                <TableRowColumn>{report.happiness}</TableRowColumn>
-                <TableRowColumn>{this._getDate(report.date)}</TableRowColumn>
+                <TableRowColumn>{report.status_level}</TableRowColumn>
+                <TableRowColumn>{report.reported_at}</TableRowColumn>
                 <TableRowColumn>
                   {report.comments ? <FlatButton label="See comments" style={flatButtonStyles} onClick={this._showCommentsModal.bind(this, report)} /> : ''}
                 </TableRowColumn>
@@ -58,10 +58,6 @@ class UserReportCard extends React.Component {
 
       </div>
     )
-  }
-
-  _getDate(date) {
-    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
   }
 
   _showCommentsModal(report) {
