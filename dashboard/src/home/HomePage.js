@@ -40,7 +40,7 @@ class HomePage extends React.Component {
                 <ReportCard report={report} ></ReportCard>
               </ColReport>
             ))}
-            {this.state.loading ? <Ionicon fontSize="100px" style={{margin: '0 auto'}} rotate={true} color={colors.main} icon="ion-load-c"></Ionicon> : ''}
+            {this.state.loading ? <Ionicon fontSize="100px" style={{margin: '0 auto'}} rotate={true} color={colors.main} icon="ion-load-c"/> : ''}
             {!this.state.lastReports.length && !this.state.loading ? <Alert className="col-xs-12"> <Ionicon icon="ion-sad-outline"/> <br/> Last reports not found.</Alert> : ''}
         </div>
       </HomePageContainer>
