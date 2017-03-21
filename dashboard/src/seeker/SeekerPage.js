@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
+import Ionicon from 'react-ionicons'
 
 import SeekerForm from './SeekerForm'
 import SeekerResults from './SeekerResults'
 import reportServices from './../reports/reportServices'
 import userServices from './../common/userServices'
+import colors from './../common/colors'
 
 const SeekerPageContainer = styled.div`
   padding: 20px;
@@ -16,7 +18,8 @@ class SeekerPage extends React.Component {
     super()
     this.state = {
       results: [],
-      users: []
+      users: [],
+      loading: false
     }
   }
 
@@ -33,7 +36,7 @@ class SeekerPage extends React.Component {
           <SeekerForm users={this.state.users} onSearch={this._search.bind(this)}/>
         </div>
         <div className="col-xs-12 col-sm-8 col-md-9">
-          <SeekerResults results={this.state.results}></SeekerResults>
+          {this.state.loading ? <Ionicon fontSize="100px" style={{marginLeft: '40%'}} rotate={true} color={colors.main} icon="ion-load-c"/> : <SeekerResults results={this.state.results}/>}
         </div>
       </SeekerPageContainer>
     )
@@ -46,9 +49,11 @@ class SeekerPage extends React.Component {
       users: searchInfo.users.map(user => user.slack_id).join(',')
     }
     
+    this.setState({ loading: true })
+
     reportServices.searchReports(parseInfo).then(response => {
       let reports = this._parseResponse(response.data)
-      this.setState({ results: reports })
+      this.setState({ results: reports, loading: false })
     })
 
   }
