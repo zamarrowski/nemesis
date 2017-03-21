@@ -7,6 +7,7 @@ import Subheader from 'material-ui/Subheader'
 import Checkbox from 'material-ui/Checkbox'
 import Avatar from 'material-ui/Avatar'
 import styled from 'styled-components'
+import colors from './../common/colors'
 
 const UserBox = styled.div`
   max-height: 300px;
@@ -14,11 +15,6 @@ const UserBox = styled.div`
 `
 
 class SeekerForm extends React.Component {
-
-  constructor(props) {
-    super(props)
-    this.state = { users: this.props.users }
-  }
 
   render() {
 
@@ -29,6 +25,8 @@ class SeekerForm extends React.Component {
     const datePickerStyles = {
       width: '100%'
     }
+
+    const flatButtonStyles = { color: colors.main }
 
     return(
       <Paper style={paperStyles} zDepth={1}>
@@ -54,18 +52,18 @@ class SeekerForm extends React.Component {
         <List>
          <Subheader>Users:</Subheader>
          <UserBox>
-           {this.state.users.map((user, key) => (
+           {this.props.users.map((user, key) => (
              <ListItem
                primaryText={user.username} key={key}
                leftCheckbox={
-                 <Checkbox onCheck={this._selectUser.bind(this, user)} />
+                 <Checkbox iconStyle={{fill: colors.main}} onCheck={this._selectUser.bind(this, user)} />
                }
-               rightAvatar={<Avatar src={user.photo} />}
+               rightAvatar={<Avatar src={user.avatar} />}
               />
            ))}
          </UserBox>
        </List>
-        <FlatButton onTouchTap={this._search.bind(this)} fullWidth={true}>Search</FlatButton>
+        <FlatButton style={flatButtonStyles} onTouchTap={this._search.bind(this)} fullWidth={true}>Search</FlatButton>
       </Paper>
     )
   }
@@ -74,17 +72,16 @@ class SeekerForm extends React.Component {
     let searchInfo = {
       minDate: this._minDateInput.state.date,
       maxDate: this._maxDateInput.state.date,
-      users: this.state.users.filter(user => user.selected)
+      users: this.props.users.filter(user => user.selected)
     }
     this.props.onSearch(searchInfo)
   }
 
   _selectUser(userSelected) {
-    let usersList = this.state.users
+    let usersList = this.props.users
     for (let user of usersList) {
       if (user.id === userSelected.id) user.selected = !user.selected
     }
-    this.setState({ users: usersList })
   }
 
 }

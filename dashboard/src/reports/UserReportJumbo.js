@@ -4,6 +4,7 @@ import Avatar from 'material-ui/Avatar'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Ionicon from 'react-ionicons'
 import { Link } from 'react-router'
+import colors from './../common/colors'
 
 const Jumbo = styled.div`
   background-color: rgb(216, 218, 219);
@@ -26,7 +27,7 @@ class UserReportJumbo extends React.Component {
               <FloatingActionButton
                 mini={true}
                 style={backButtonStyle}
-                backgroundColor="rgb(255, 130, 110)">
+                backgroundColor={colors.main}>
                   <Ionicon icon="ion-android-arrow-back"/>
               </FloatingActionButton>
             </Link>

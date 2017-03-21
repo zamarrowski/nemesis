@@ -5,11 +5,12 @@ import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import Ionicon from 'react-ionicons'
 import { browserHistory } from 'react-router'
+import colors from './common/colors'
 
 class Header extends React.Component {
   render() {
     const iconStyle = { marginTop: '5px' }
-    const appBarStyle = { backgroundColor: 'rgb(255, 130, 110)' }
+    const appBarStyle = { backgroundColor: colors.main }
     return(
       <AppBar title="Nemesis"
         style={appBarStyle}

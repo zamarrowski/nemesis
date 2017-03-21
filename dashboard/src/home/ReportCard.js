@@ -3,10 +3,11 @@ import { Card, CardActions, CardHeader } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import styled from 'styled-components'
 import { Link } from 'react-router'
+import colors from './../common/colors'
 
 class ReportCard extends React.Component {
   render() {
-    const flatButtonStyles = { color: 'rgb(255, 130, 110)' }
+    const flatButtonStyles = { color: colors.main }
     return(
       <Card>
         <CardHeader
