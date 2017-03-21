@@ -9,12 +9,16 @@ const ColReport = styled.div`
   margin-bottom: 10px;
 `
 
+const SeekerResultsContainer = styled.div`
+  margin-top: 10px;
+`
+
 class SeekerResults extends React.Component {
   render() {
     return(
-      <div className="row">
+      <SeekerResultsContainer className="row">
         {!this.props.results.length ? <Alert className="col-xs-12"> <Ionicon color="white" icon="ion-sad-outline"/> <br/>  Results not found.</Alert> : this._getNodeResults()}
-      </div>
+      </SeekerResultsContainer>
     )
   }
 

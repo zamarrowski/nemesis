@@ -8,11 +8,17 @@ import Checkbox from 'material-ui/Checkbox'
 import Avatar from 'material-ui/Avatar'
 import Snackbar from 'material-ui/Snackbar'
 import styled from 'styled-components'
+import Ionicon from 'react-ionicons'
+
 import colors from './../common/colors'
 
 const UserBox = styled.div`
   max-height: 300px;
   overflow-y: auto;
+`
+
+const SeekerFormContainer = styled.div`
+  margin-top: 10px;
 `
 
 class SeekerForm extends React.Component {
@@ -35,7 +41,7 @@ class SeekerForm extends React.Component {
     const flatButtonStyles = { color: colors.main }
 
     return(
-      <div>
+      <SeekerFormContainer>
         <Paper style={paperStyles} zDepth={1}>
           <List>
             <Subheader>Date range</Subheader>
@@ -59,15 +65,7 @@ class SeekerForm extends React.Component {
           <List>
            <Subheader>Users:</Subheader>
            <UserBox>
-             {this.props.users.map((user, key) => (
-               <ListItem
-                 primaryText={user.username} key={key}
-                 leftCheckbox={
-                   <Checkbox iconStyle={{fill: colors.main}} onCheck={this._selectUser.bind(this, user)} />
-                 }
-                 rightAvatar={<Avatar src={user.avatar} />}
-                />
-             ))}
+             {this._getUsersNode()}
            </UserBox>
          </List>
           <FlatButton style={flatButtonStyles} onTouchTap={this._search.bind(this)} fullWidth={true}>Search</FlatButton>
@@ -77,7 +75,7 @@ class SeekerForm extends React.Component {
           message="Min date, max date and users are required."
           autoHideDuration={3000}
         />
-      </div>
+      </SeekerFormContainer>
     )
   }
 
@@ -101,6 +99,24 @@ class SeekerForm extends React.Component {
     let usersList = this.props.users
     for (let user of usersList) {
       if (user.id === userSelected.id) user.selected = !user.selected
+    }
+  }
+
+  _getUsersNode() {
+    if (this.props.users.length) {
+      return (
+        this.props.users.map((user, key) => (
+          <ListItem
+            primaryText={user.username} key={key}
+            leftCheckbox={
+              <Checkbox iconStyle={{fill: colors.main}} onCheck={this._selectUser.bind(this, user)} />
+            }
+            rightAvatar={<Avatar src={user.avatar} />}
+           />
+        ))
+      )
+    } else {
+      return (<Ionicon fontSize="30px" style={{marginLeft: '45%'}} rotate={true} color={colors.main} icon="ion-load-c"/>)
     }
   }
 
