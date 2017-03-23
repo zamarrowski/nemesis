@@ -24,6 +24,12 @@ class UserSlack(DynamicDocument):
             'avatar': self.avatar
         }
 
+    def update(self, user):
+        self.username = user['username']
+        self.realname = user['realname']
+        self.avatar = user['avatar']
+        self.save()
+
     @staticmethod
     def get_user(slack_id):
         try:
@@ -51,14 +57,15 @@ class UserSlack(DynamicDocument):
     @staticmethod
     def report_status(user, status, comments=None):
         try:
-            user = UserSlack.objects.get(slack_id=user['slack_id'])
+            user_slack = UserSlack.objects.get(slack_id=user['slack_id'])
+            user_slack.update(user)
         except:
-            user = UserSlack(**user).save()
-        user_status_report = UserSlack.get_user_status_today(user)
+            user_slack = UserSlack(**user).save()
+        user_status_report = UserSlack.get_user_status_today(user_slack)
         if user_status_report is not None:
             user_status_report.update(status, comments)
         else:
-            UserStatusReport(user=user, status=status, reported_at=datetime.datetime.utcnow(), comments=comments).save()
+            UserStatusReport(user=user_slack, status=status, reported_at=datetime.datetime.utcnow(), comments=comments).save()
 
 
 class UserStatusReport(DynamicDocument):

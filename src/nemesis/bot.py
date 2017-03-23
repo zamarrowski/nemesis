@@ -30,7 +30,7 @@ class SlackClientNemesis(object):
         return {
             'slack_id': user['id'],
             'username': user['name'],
-            'avatar': user['profile']['image_48'],
+            'avatar': user['profile']['image_192'],
             'realname': user['real_name']
         }
 
