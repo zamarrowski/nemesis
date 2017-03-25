@@ -115,11 +115,8 @@ class SeekerForm extends React.Component {
 
   }
 
-  _selectUser(userSelected) {
-    let usersList = this.props.users
-    for (let user of usersList) {
-      if (user.id === userSelected.id) user.selected = !user.selected
-    }
+  _selectUser(user, e, value) {
+    user.selected = value
   }
 
 }
