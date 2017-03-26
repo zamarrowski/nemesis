@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import UserReportJumbo from './UserReportJumbo'
 import UserReportsTable from './UserReportsTable'
+import UserReportChart from './UserReportChart'
 import reportServices from './reportServices'
 
 const UserReportsContainer = styled.div`
@@ -31,6 +32,9 @@ class UserReportsPage extends React.Component {
             <UserReportJumbo report={this.state.userReport}></UserReportJumbo>
             <UserReportsContainer>
               {this.state.userReport.reports.length ? <h1>Last reports</h1> : ''}
+              <div className="row">
+                <UserReportChart reports={this.state.userReport.reports}/>
+              </div>
               <div className="row">
                 <UserReportsTable reports={this.state.userReport.reports}/>
               </div>

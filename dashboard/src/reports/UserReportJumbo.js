@@ -64,7 +64,7 @@ class UserReportJumbo extends React.Component {
       let AverageHappinessText = styled.h3`
         color: ${(props) => props.color}
       `
-      element = (<AverageHappinessText color={this._getAverageHappinessColor.bind(this, averageHappiness)}>Average happiness: {averageHappiness}</AverageHappinessText>)
+      element = (<AverageHappinessText color={this._getAverageHappinessColor.bind(this, averageHappiness)}>Average happiness: {averageHappiness.toFixed(2)}</AverageHappinessText>)
     } else {
       element = (<span><Ionicon icon="ion-sad-outline"/> <br/> Sorry, we don't have the average happiness.</span>)
     }
