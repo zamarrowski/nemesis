@@ -5,9 +5,9 @@ OAUTH_SCOPE = 'identity.basic'
 MAX_LAST_REPORTS = 10
 
 USER_STATUS = (
-        (1, 'Very Bad'),
-        (2, 'Bad'),
-        (3, 'Normal'),
-        (4, 'Good'),
-        (5, 'Very Good')
+        (1, 'really bad :disappointed:'),
+        (2, 'a bit down :pensive:'),
+        (3, 'normal :neutral_face:'),
+        (4, 'alright :slightly_smiling_face:'),
+        (5, 'awesome :smile:')
 )

@@ -1,6 +1,6 @@
 FROM python:3
 
-COPY ../../../../. /nemesis
+COPY . /nemesis
 WORKDIR /nemesis
 
 RUN set -ex \

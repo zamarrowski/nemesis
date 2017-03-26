@@ -48,9 +48,11 @@ class UserSlack(DynamicDocument):
         return False
 
     @staticmethod
-    def get_user_status_today(user):
-        midnight = datetime.datetime.combine(datetime.datetime.utcnow().date(), datetime.time(0))
-        tomorrow_midnight = datetime.datetime.combine(datetime.datetime.utcnow().date() + datetime.timedelta(days=1), datetime.time(0))
+    def get_user_status_from_day(user, day=None):
+        if day is None:
+            day = datetime.datetime.utcnow().date()
+        midnight = datetime.datetime.combine(day, datetime.time(0))
+        tomorrow_midnight = datetime.datetime.combine(day + datetime.timedelta(days=1), datetime.time(0))
         if len(UserStatusReport.objects.filter(user=user, reported_at__gte=midnight).filter(reported_at__lte=tomorrow_midnight)) > 0:
             return UserStatusReport.objects.filter(user=user, reported_at__gte=midnight).filter(reported_at__lte=tomorrow_midnight)[0]
 
@@ -83,6 +85,15 @@ class UserStatusReport(DynamicDocument):
         if len(text) > 1:
             comments = text[1]
         return int(status), comments
+
+    @staticmethod
+    def get_login_message():
+        initial_message = u'Hi! How do you feeling today?\n'
+
+        for status in constants.USER_STATUS:
+            initial_message += str(status[0]) + '. ' + status[1] + '\n'
+        initial_message += 'ex, 3: I am tired'
+        return initial_message
 
     def serialize_reported_at(self, timezone=options.nemesis_timezone):
         current_tz = pytz.timezone(timezone)

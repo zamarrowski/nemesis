@@ -10,9 +10,7 @@ from nemesis.common.utils import mongo_connect
 
 def main():
     load_options()
-
     set_logger()
-
     mongo_connect()
 
     from nemesis.api import api
