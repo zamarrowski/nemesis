@@ -4,13 +4,14 @@ import pytz
 import json
 
 from datetime import datetime
+from datetime import timedelta
 
 from slackclient import SlackClient
 from bottle import request, abort, response, hook, route
 
-from nemesis import constants
-from nemesis.config import options
-from nemesis.models import UserSlack, UserStatusReport
+from nemesis.common import constants
+from nemesis.common.config import options
+from nemesis.models.models import UserSlack, UserStatusReport
 
 
 @hook('after_request')
@@ -19,7 +20,8 @@ def set_response():
     response.content_type = 'application/json'
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'Authorization, Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+    response.headers['Access-Control-Allow-Headers'] = 'Authorization, Origin, Accept, \
+                                                        Content-Type, X-Requested-With, X-CSRF-Token'
 
 
 def authorize(request):
@@ -68,7 +70,7 @@ def last_user_reports(user):
     result = user.serialize()
 
     query = UserStatusReport.objects.filter(user=user)
-    query = query.order_by('-reported_at')[0:constants.MAX_LAST_REPORTS]
+    query = query.order_by('reported_at')[0:constants.MAX_LAST_REPORTS]
     result.update({'status_avg': query.average('status')})
     reports = []
     for status in query:
@@ -105,23 +107,42 @@ def get_utc_from_str(dt_str):
     return current_tz.localize(dt)
 
 
+def get_all_dates(start_date, end_date):
+    delta_date = end_date - start_date
+    labels = []
+    for i in range(delta_date.days + 1):
+        labels.append(start_date + timedelta(days=i))
+    return labels
+
+
+def get_labels(all_dates, timezone=options.nemesis_timezone):
+    current_tz = pytz.timezone(timezone)
+    labels = []
+    for day in all_dates:
+        label = day.replace(tzinfo=pytz.utc).astimezone(current_tz)
+        labels.append('{datetime:%d-%m-%Y %H:%M:%S}'.format(datetime=label))
+    return labels
+
+
 @route('/users-reports/', method='GET')
 @authorize(request)
 def users_reports():
     users = request.query.users.split(',')
     start_date = get_utc_from_str(request.query.start_date)
     end_date = get_utc_from_str(request.query.end_date)
+    all_dates = get_all_dates(start_date, end_date)
 
     users = UserSlack.objects.filter(slack_id__in=users)
     query = UserStatusReport.objects.filter(reported_at__gte=start_date)
     query = query.filter(reported_at__lte=end_date)
 
-    global_reports = {'global_status_avg': query.average('status'), 'users_reports': []}
+    global_reports = {'global_status_avg': query.average('status'), 'users_reports': [], 'labels': get_labels(all_dates)}
     for user in users:
         user_query = query.filter(user=user)
         report = {'user_avg': user_query.average('status'), 'user': user.serialize(), 'reports': []}
-        for user_report in user_query.filter(user=user).order_by('-reported_at'):
-            report['reports'].append(user_report.serialize())
+        for label in all_dates:
+            user_report = UserSlack.get_user_status_from_day(user, label)
+            report['reports'].append(user_report.status if user_report is not None else 0)
         global_reports['users_reports'].append(report)
 
     return json.dumps(global_reports)

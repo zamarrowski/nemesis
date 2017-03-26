@@ -5,10 +5,10 @@ import logging
 
 from slackclient import SlackClient
 
-from nemesis import bot_messages
-from nemesis.config import options
-from nemesis.models import UserSlack
-from nemesis.models import UserStatusReport
+from nemesis.bot import bot_messages
+from nemesis.common.config import options
+from nemesis.models.models import UserSlack
+from nemesis.models.models import UserStatusReport
 
 
 class SlackClientNemesis(object):

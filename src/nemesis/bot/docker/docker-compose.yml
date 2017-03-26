@@ -1,0 +1,6 @@
+version: "2"
+
+services:
+  nemesis:
+    build: .
+    container_name: nemesis-bot
