@@ -120,7 +120,7 @@ def get_labels(all_dates, timezone=options.nemesis_timezone):
     labels = []
     for day in all_dates:
         label = day.replace(tzinfo=pytz.utc).astimezone(current_tz)
-        labels.append('{datetime:%d-%m-%Y %H:%M:%S}'.format(datetime=label))
+        labels.append('{datetime:%d-%m-%Y}'.format(datetime=label))
     return labels
 
 
