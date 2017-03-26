@@ -32,7 +32,7 @@ class LoginForm extends React.Component {
   render() {
     return(
         <div>
-          {this.state.loading ? this._getLoadingIcon()  : this._getLoginButton()}
+          {this.state.loading ? this._getLoadingIcon() : this._getLoginButton()}
         </div>
     )
   }

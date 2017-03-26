@@ -71,4 +71,8 @@ class UserReportCard extends React.Component {
 
 }
 
+UserReportCard.propTypes = {
+  reports: React.PropTypes.array.isRequired
+}
+
 export default UserReportCard

@@ -36,7 +36,7 @@ class HomePage extends React.Component {
         <div className="row">
             {this.state.lastReports.map((report, index) => (
               <ColReport className="col-xs-12 col-sm-6 col-md-4" key={index}>
-                <ReportCard report={report} ></ReportCard>
+                <ReportCard report={report}/>
               </ColReport>
             ))}
             {this.state.loading ? <Ionicon fontSize="100px" style={{margin: '0 auto'}} rotate={true} color={colors.main} icon="ion-load-c"/> : ''}

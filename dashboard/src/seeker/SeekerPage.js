@@ -48,7 +48,7 @@ class SeekerPage extends React.Component {
       end_date: this._parseDate(searchInfo.maxDate),
       users: searchInfo.users.map(user => user.slack_id).join(',')
     }
-    
+
     this.setState({ loading: true })
 
     reportServices.searchReports(parseInfo).then(response => {

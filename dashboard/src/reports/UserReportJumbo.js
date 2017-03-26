@@ -90,4 +90,8 @@ class UserReportJumbo extends React.Component {
 
 }
 
+UserReportJumbo.propTypes = {
+  report: React.PropTypes.object.isRequired
+}
+
 export default UserReportJumbo

@@ -39,4 +39,8 @@ class UserReportChart extends React.Component {
 
 }
 
+UserReportChart.propTypes = {
+  reports: React.PropTypes.array.isRequired
+}
+
 export default UserReportChart

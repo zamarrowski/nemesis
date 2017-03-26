@@ -88,4 +88,8 @@ class ReportCard extends React.Component {
 
 }
 
+ReportCard.propTypes = {
+  report: React.PropTypes.object.isRequired
+}
+
 export default ReportCard

@@ -26,7 +26,7 @@ class LoginPage extends React.Component {
           <div className="col-xs-4 col-xs-offset-4">
             <LoginBox>
                 <Ionicon icon="ion-happy-outline" color="white" fontSize="150px"/>
-                <LoginForm></LoginForm>
+                <LoginForm/>
             </LoginBox>
           </div>
         </div>

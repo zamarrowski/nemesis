@@ -121,4 +121,8 @@ class SeekerForm extends React.Component {
 
 }
 
+SeekerForm.propTypes = {
+  users: React.PropTypes.array.isRequired
+}
+
 export default SeekerForm

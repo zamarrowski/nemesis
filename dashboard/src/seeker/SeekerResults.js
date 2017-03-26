@@ -31,4 +31,8 @@ class SeekerResults extends React.Component {
   }
 }
 
+SeekerResults.propTypes = {
+  results: React.PropTypes.array.isRequired
+}
+
 export default SeekerResults
