@@ -11,16 +11,16 @@ setup(
     # Package info
     name='nemesis',
     version='0.1.0',
-    description='Slackbot that track the hapiness of your team',
-    author='authors',
-    author_email='mails',
+    description='Slackbot that track the happiness of your team',
+    author='Sergio Zamarro, Alba Cañas',
+    author_email='sergiozam13@gmail.com, alba.caon@gmail.com',
     url='',
     long_description=readme,
 
     # Package classifiers
     classifiers=[
         'Programming Language :: Python :: 3.6',
-        'Natural Language :: Spanish',
+        'Natural Language :: English',
         'Operating System :: POSIX',
         'Programming Language :: Python :: Implementation :: CPython',
     ],
@@ -35,8 +35,8 @@ setup(
     install_requires=open('requirements.txt', 'r').read().splitlines(),
     entry_points={
         'console_scripts': [
-            'nemesis_bot = nemesis.main:main_bot',
-            'nemesis_api = nemesis.main:main_api',
+            'nemesis_bot = nemesis.bot.__main__:main',
+            'nemesis_api = nemesis.api.__main__:main',
         ],
     }
 )

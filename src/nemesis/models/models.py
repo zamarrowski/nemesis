@@ -3,11 +3,11 @@
 import pytz
 import datetime
 
-from nemesis.config import options
-from nemesis import constants
-
 from mongoengine import DynamicDocument, fields
 from mongoengine.errors import DoesNotExist
+
+from nemesis.common.config import options
+from nemesis.common import constants
 
 
 class UserSlack(DynamicDocument):

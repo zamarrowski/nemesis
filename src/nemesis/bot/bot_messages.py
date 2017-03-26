@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from nemesis import constants
+from nemesis.common import constants
 
 
 def get_login_message():

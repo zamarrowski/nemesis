@@ -8,9 +8,9 @@ from datetime import datetime
 from slackclient import SlackClient
 from bottle import request, abort, response, hook, route
 
-from nemesis import constants
-from nemesis.config import options
-from nemesis.models import UserSlack, UserStatusReport
+from nemesis.common import constants
+from nemesis.common.config import options
+from nemesis.models.models import UserSlack, UserStatusReport
 
 
 @hook('after_request')

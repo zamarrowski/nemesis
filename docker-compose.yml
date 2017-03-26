@@ -1,6 +1,0 @@
-version: "2"
-
-services:
-  nemesis:
-    image: nemesis:latest
-    command: "--conf nemesis.cfg"
