@@ -27,7 +27,7 @@ class UserReportCard extends React.Component {
   render() {
 
     return(
-      <div className="col-xs-12 col-md-6 col-md-offset-3 col-lg-8 col-lg-offset-2">
+      <div className="col-xs-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
         <Table selectable={false}>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
