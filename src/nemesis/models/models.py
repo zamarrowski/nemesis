@@ -43,7 +43,7 @@ class UserSlack(DynamicDocument):
             user = UserSlack.objects.get(slack_id=user)
         except:
             return False
-        if UserSlack.get_user_status_today(user) is not None:
+        if UserSlack.get_user_status_from_day(user) is not None:
             return True
         return False
 
@@ -63,7 +63,7 @@ class UserSlack(DynamicDocument):
             user_slack.update(user)
         except:
             user_slack = UserSlack(**user).save()
-        user_status_report = UserSlack.get_user_status_today(user_slack)
+        user_status_report = UserSlack.get_user_status_from_day(user_slack)
         if user_status_report is not None:
             user_status_report.update(status, comments)
         else:
