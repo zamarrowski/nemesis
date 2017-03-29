@@ -135,6 +135,31 @@ def users_reports():
     users = UserSlack.objects.filter(slack_id__in=users)
     query = UserStatusReport.objects.filter(reported_at__gte=start_date)
     query = query.filter(reported_at__lte=end_date)
+    global_reports = {'global_status_avg': query.average('status'), 'users_reports': [], 'labels': get_labels(all_dates)}
+    for user in users:
+        user_query = query.filter(user=user)
+        report = {'user_avg': user_query.average('status'), 'user': user.serialize(), 'reports': [], 'status': []}
+        for user_report in user_query.filter(user=user).order_by('-reported_at'):
+            report['reports'].append(user_report.serialize())
+        for label in all_dates:
+            user_report = UserSlack.get_user_status_from_day(user, label)
+            report['status'].append(user_report.status if user_report is not None else 0)
+        global_reports['users_reports'].append(report)
+
+    return json.dumps(global_reports)
+
+
+@route('/users-graph/', method='GET')
+@authorize(request)
+def users_graph():
+    users = request.query.users.split(',')
+    start_date = get_utc_from_str(request.query.start_date)
+    end_date = get_utc_from_str(request.query.end_date)
+    all_dates = get_all_dates(start_date, end_date)
+
+    users = UserSlack.objects.filter(slack_id__in=users)
+    query = UserStatusReport.objects.filter(reported_at__gte=start_date)
+    query = query.filter(reported_at__lte=end_date)
 
     global_reports = {'global_status_avg': query.average('status'), 'users_reports': [], 'labels': get_labels(all_dates)}
     for user in users:
