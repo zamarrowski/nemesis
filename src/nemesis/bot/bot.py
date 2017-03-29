@@ -47,6 +47,7 @@ class Nemesis(SlackClientNemesis):
 
     def slack_connect(self):
         if self.slack_client.rtm_connect():
+            print('Connected to Nemesis bot')
             logging.info('Connected to Nemesis bot')
             while True:
                 try:
@@ -65,6 +66,8 @@ class Nemesis(SlackClientNemesis):
                 except KeyboardInterrupt:
                     logging.info('Disconnected. Bye bye Nemesis')
                     break
+                except Exception:
+                    logging.exception("message")
         else:
             logging.error('Cannot connect to Nemesis bot. Is the token correct?')
 
