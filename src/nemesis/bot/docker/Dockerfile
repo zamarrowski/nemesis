@@ -5,7 +5,9 @@ WORKDIR /nemesis
 
 RUN set -ex \
  && apt-get update -y \
- && pip3 install . \
+ && pip install -e . \
  && rm -rf /root/.cache
+
+RUN sed -i -- 's/host=localhost/host=mongodb/g' nemesis.cfg
 
 CMD ["nemesis_bot", "--conf", "nemesis.cfg"]

@@ -1,0 +1,34 @@
+version: '2'
+services:
+
+  nemesis-bot:
+   build:
+     context: .
+     dockerfile: src/nemesis/bot/docker/Dockerfile
+   container_name: nemesis-bot
+   depends_on:
+    - mongodb
+
+  nemesis-api:
+   build:
+     context: .
+     dockerfile: src/nemesis/api/docker/Dockerfile
+   container_name: nemesis-api
+   ports:
+    - 8080:8080
+   depends_on:
+    - mongodb
+
+  mongodb:
+   image: mongo:3.3
+   container_name: nemesis-mongodb
+   ports:
+     - 27017:27017
+
+  nemesis-dashboard:
+    build:
+      context: dashboard/
+      dockerfile: Dockerfile
+    container_name: nemesis-dashboard
+    ports:
+     - 80:80
