@@ -287,8 +287,8 @@ section.features .feature-item h3 {
 }
 section.features .feature-item i {
   font-size: 80px;
-  background: -webkit-linear-gradient(to left, #7b4397, #dc2430);
-  background: linear-gradient(to left, #7b4397, #dc2430);
+  background: -webkit-linear-gradient(to left, #FF5F6D , #FFC371);
+  background: linear-gradient(to left, #FF5F6D , #FFC371);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -397,8 +397,6 @@ footer ul li a.active {
 }
 .bg-primary {
   background: #fdcc52;
-  background: -webkit-linear-gradient(#fdcc52, #fdc539);
-  background: linear-gradient(#fdcc52, #fdc539);
 }
 .text-primary {
   color: #fdcc52;
