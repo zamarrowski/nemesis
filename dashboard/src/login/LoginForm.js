@@ -1,9 +1,11 @@
 import React from 'react'
-import getURLParameters from './getURLParameters'
-import loginServices from './loginServices'
 import { browserHistory } from 'react-router'
 import Ionicon from 'react-ionicons'
 import styled from 'styled-components'
+
+import getURLParameters from './getURLParameters'
+import loginServices from './loginServices'
+import config from './../config'
 
 const LoadingMessage = styled.h3`
   color: white;
@@ -39,7 +41,7 @@ class LoginForm extends React.Component {
 
   _getLoginButton() {
     return (
-      <a href="https://slack.com/oauth/authorize?scope=identity.basic&client_id=155087779333.156380766404">
+      <a href={`https://slack.com/oauth/authorize?scope=identity.basic&client_id=${config.clientId}`}>
         <img alt="slack_button" src="https://api.slack.com/img/sign_in_with_slack.png" />
       </a>
     )

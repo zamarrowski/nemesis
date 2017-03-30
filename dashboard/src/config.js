@@ -1,3 +1,4 @@
 export default {
-  baseService: 'http://localhost:8080'
+  baseService: 'http://localhost:8080',
+  clientId: ''
 }
