@@ -378,6 +378,14 @@ footer {
   color: rgba(255, 255, 255, 0.3);
   text-align: center;
 }
+footer i.fa-heart {
+  color: red;
+}
+
+footer i.fa-globe {
+  color: green;
+}
+
 footer p {
   font-size: 12px;
   margin: 0;
