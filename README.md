@@ -49,6 +49,20 @@ db.createUser({ user: "nemesis", pwd: "nemesis", roles: ["readWrite"] })
 * Nemesis-Bot is running in your Slack!
 * MongoDB is running in 27017
 
+## Modify Nemesis messages:
+
+Open ```src/nemesis/common/constants.py``` and modify:
+
+```
+USER_STATUS = (
+        (1, 'really bad :disappointed:'),
+        (2, 'a bit down :pensive:'),
+        (3, 'normal :neutral_face:'),
+        (4, 'alright :slightly_smiling_face:'),
+        (5, 'awesome :smile:')
+)
+```
+
 ## How to contribute:
 
 We love feedback so feel free to open issues (https://github.com/zamarrowski/nemesis/issues) or Pull Request.
