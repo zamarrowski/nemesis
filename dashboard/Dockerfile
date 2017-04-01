@@ -10,4 +10,6 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 RUN npm install
 RUN npm run build
 RUN cp -r ./build/* ./
+RUN rm -rf node_modules/
+RUN rm -rf src/
 EXPOSE 80
