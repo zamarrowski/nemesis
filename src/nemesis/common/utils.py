@@ -10,7 +10,7 @@ from nemesis.common.config import options
 
 def load_options():
 
-    parser = argparse.ArgumentParser(description='VATS Scripting executor and parser')
+    parser = argparse.ArgumentParser(description='Nemesis parser')
     parser.add_argument('--conf', action='store', required=True, help='path to config file')
     args = parser.parse_args()
 
