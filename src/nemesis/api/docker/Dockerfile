@@ -1,10 +1,9 @@
-FROM python:3
+FROM python:3-alpine
 
 COPY . /nemesis
 WORKDIR /nemesis
 
 RUN set -ex \
- && apt-get update -y \
  && pip install -e . \
  && rm -rf /root/.cache
 
