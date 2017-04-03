@@ -1,8 +1,0 @@
-version: "2"
-
-services:
-  nemesis:
-    build: .
-    container_name: nemesis-api
-    ports:
-     - 8080:8080
