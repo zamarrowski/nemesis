@@ -7,19 +7,11 @@ import Subheader from 'material-ui/Subheader'
 import Checkbox from 'material-ui/Checkbox'
 import Avatar from 'material-ui/Avatar'
 import Snackbar from 'material-ui/Snackbar'
-import styled from 'styled-components'
 import Ionicon from 'react-ionicons'
 
 import colors from './../common/colors'
+import { UserBox } from './styles'
 
-const UserBox = styled.div`
-  max-height: 300px;
-  overflow-y: auto;
-`
-
-const SeekerFormContainer = styled.div`
-  margin-top: 10px;
-`
 
 class SeekerForm extends React.Component {
 
@@ -41,7 +33,7 @@ class SeekerForm extends React.Component {
     const flatButtonStyles = { color: colors.main }
 
     return(
-      <SeekerFormContainer>
+      <div style={{ marginTop: '10px' }}>
         <Paper style={paperStyles} zDepth={1}>
           <List>
             <Subheader>Date range</Subheader>
@@ -75,7 +67,7 @@ class SeekerForm extends React.Component {
           message="Min date, max date and users are required."
           autoHideDuration={3000}
         />
-      </SeekerFormContainer>
+    </div>
     )
   }
 

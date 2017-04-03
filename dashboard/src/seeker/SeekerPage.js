@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import Ionicon from 'react-ionicons'
 
 import SeekerForm from './SeekerForm'
@@ -8,9 +7,6 @@ import reportServices from './../reports/reportServices'
 import userServices from './../common/userServices'
 import colors from './../common/colors'
 
-const SeekerPageContainer = styled.div`
-  padding: 20px;
-`
 
 class SeekerPage extends React.Component {
 
@@ -31,14 +27,14 @@ class SeekerPage extends React.Component {
 
   render() {
     return (
-      <SeekerPageContainer className="row">
+      <div style={{ padding: '20px' }} className="row">
         <div className="col-xs-12 col-sm-4 col-md-3">
           <SeekerForm users={this.state.users} onSearch={this._search.bind(this)}/>
         </div>
         <div className="col-xs-12 col-sm-8 col-md-9">
           {this.state.loading ? <Ionicon fontSize="100px" style={{marginLeft: '40%'}} rotate={true} color={colors.main} icon="ion-load-c"/> : <SeekerResults results={this.state.results}/>}
         </div>
-      </SeekerPageContainer>
+      </div>
     )
   }
 

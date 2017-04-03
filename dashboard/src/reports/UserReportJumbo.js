@@ -1,16 +1,12 @@
 import React from 'react'
-import styled from 'styled-components'
 import Avatar from 'material-ui/Avatar'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Ionicon from 'react-ionicons'
 import { Link } from 'react-router'
+
+import { Jumbo, AverageHappinessText } from './styles'
 import colors from './../common/colors'
 
-const Jumbo = styled.div`
-  background-color: rgb(216, 218, 219);
-  text-align: center;
-  padding-bottom: 50px;
-`
 
 class UserReportJumbo extends React.Component {
 
@@ -61,9 +57,7 @@ class UserReportJumbo extends React.Component {
     let element = null
 
     if (averageHappiness) {
-      let AverageHappinessText = styled.h3`
-        color: ${(props) => props.color}
-      `
+
       element = (<AverageHappinessText color={this._getAverageHappinessColor.bind(this, averageHappiness)}>Average happiness: {averageHappiness.toFixed(2)}</AverageHappinessText>)
     } else {
       element = (<span><Ionicon icon="ion-sad-outline"/> <br/> Sorry, we don't have the average happiness.</span>)
