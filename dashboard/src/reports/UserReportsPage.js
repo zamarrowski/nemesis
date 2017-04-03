@@ -1,15 +1,10 @@
 import React from 'react'
-import styled from 'styled-components'
 
 import UserReportJumbo from './UserReportJumbo'
 import UserReportsTable from './UserReportsTable'
 import UserReportChart from './UserReportChart'
 import reportServices from './reportServices'
-
-const UserReportsContainer = styled.div`
-  padding: 20px;
-  h1 { text-align: center }
-`
+import { UserReportsContainer } from './styles'
 
 class UserReportsPage extends React.Component {
 

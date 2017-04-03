@@ -1,15 +1,10 @@
 import React from 'react'
 import { browserHistory } from 'react-router'
 import Ionicon from 'react-ionicons'
-import styled from 'styled-components'
 
 import getURLParameters from './getURLParameters'
 import loginServices from './loginServices'
 import config from './../config'
-
-const LoadingMessage = styled.h3`
-  color: white;
-`
 
 class LoginForm extends React.Component {
 
@@ -50,7 +45,7 @@ class LoginForm extends React.Component {
   _getLoadingIcon() {
     return(
       <div>
-        <LoadingMessage>Loading...</LoadingMessage>
+        <h3 style={{ color: 'white' }}>Loading...</h3>
         <Ionicon fontSize="50px" style={{margin: '0 auto'}} rotate={true} color="white" icon="ion-load-c"/>
       </div>
     )
