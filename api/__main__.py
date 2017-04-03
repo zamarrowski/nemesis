@@ -14,7 +14,7 @@ def main():
     mongo_connect()
 
     from api import user, report, utils
-    run(host=options.api_host, port=options.api_port)
+    run(server='tornado', host=options.api_host, port=options.api_port)
 
 
 if __name__ == "__main__":
