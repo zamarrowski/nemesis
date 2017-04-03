@@ -26,8 +26,8 @@ setup(
     ],
 
     # Package structure
-    packages=find_packages('src', exclude=['ez_setup', '*.tests', '*.tests.*', 'tests.*', 'tests']),
-    package_dir={'': 'src'},
+    packages=find_packages('.', exclude=['ez_setup', '*.tests', '*.tests.*', 'tests.*', 'tests']),
+    package_dir={'': '.'},
     include_package_data=True,
     zip_safe=False,
 
@@ -35,8 +35,8 @@ setup(
     install_requires=open('requirements.txt', 'r').read().splitlines(),
     entry_points={
         'console_scripts': [
-            'nemesis_bot = nemesis.bot.__main__:main',
-            'nemesis_api = nemesis.api.__main__:main',
+            'nemesis_bot = bot.__main__:main',
+            'nemesis_api = api.__main__:main',
         ],
     }
 )

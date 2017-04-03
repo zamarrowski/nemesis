@@ -2,10 +2,10 @@
 
 from bottle import run
 
-from nemesis.common.config import options
-from nemesis.common.utils import load_options
-from nemesis.common.utils import set_logger
-from nemesis.common.utils import mongo_connect
+from common.config import options
+from common.utils import load_options
+from common.utils import set_logger
+from common.utils import mongo_connect
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
     set_logger()
     mongo_connect()
 
-    from nemesis.api import api
+    from api import user, report, utils
     run(host=options.api_host, port=options.api_port)
 
 

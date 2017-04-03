@@ -5,7 +5,7 @@ import argparse
 
 from mongoengine import connect
 
-from nemesis.common.config import options
+from common.config import options
 
 
 def load_options():

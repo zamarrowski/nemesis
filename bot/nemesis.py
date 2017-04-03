@@ -5,10 +5,10 @@ import logging
 
 from slackclient import SlackClient
 
-from nemesis.bot import bot_messages
-from nemesis.common.config import options
-from nemesis.models.models import UserSlack
-from nemesis.models.models import UserStatusReport
+from bot import messages
+from common.config import options
+from models.user import UserSlack
+from models.report import UserStatusReport
 
 
 class SlackClientNemesis(object):
@@ -55,13 +55,13 @@ class Nemesis(SlackClientNemesis):
                         logging.debug(event)
                         event_type = self.get_event_type(event)
                         if event_type == 'user_login' and UserSlack.has_user_reported(event['user']) is False:
-                            self.post_message(event['user'], bot_messages.login_message)
+                            self.post_message(event['user'], messages.login_message)
                         elif event_type == 'user_post_message':
                             status, comments = UserStatusReport.get_status(event['text'])
                             if status is not None:
                                 self.user_report_status(event['user'], status, comments)
                             else:
-                                self.post_message(event['user'], text=bot_messages.help_message)
+                                self.post_message(event['user'], text=messages.help_message)
                         time.sleep(0.5)
                 except KeyboardInterrupt:
                     logging.info('Disconnected. Bye bye Nemesis')
@@ -81,4 +81,4 @@ class Nemesis(SlackClientNemesis):
 
     def user_report_status(self, user, status, comments=None):
         UserSlack.report_status(self.get_user_info(user), status, comments)
-        self.post_message(user, text=bot_messages.success_message)
+        self.post_message(user, text=messages.success_message)
