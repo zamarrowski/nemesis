@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from nemesis.models.models import UserStatusReport
+from models.report import UserStatusReport
 
 login_message = UserStatusReport.get_login_message()
 help_message = u'use (x: comments)'

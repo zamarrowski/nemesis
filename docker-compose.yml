@@ -4,7 +4,7 @@ services:
   nemesis-bot:
    build:
      context: .
-     dockerfile: src/nemesis/bot/docker/Dockerfile
+     dockerfile: bot/Dockerfile
    container_name: nemesis-bot
    depends_on:
     - mongodb
@@ -12,7 +12,7 @@ services:
   nemesis-api:
    build:
      context: .
-     dockerfile: src/nemesis/api/docker/Dockerfile
+     dockerfile: api/Dockerfile
    container_name: nemesis-api
    ports:
     - 8080:8080
