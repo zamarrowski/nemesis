@@ -1,9 +1,13 @@
 import React from 'react'
-import Ionicon from 'react-ionicons'
 
 import LoginForm from './LoginForm'
 import { LoginPageContainer, LoginBox } from './styles'
+import logo from './../common/logo_name.png'
 
+const logoStyle = {
+  width: '100%',
+  marginBottom: '20px'
+}
 
 class LoginPage extends React.Component {
   render() {
@@ -12,7 +16,7 @@ class LoginPage extends React.Component {
         <div className="row">
           <div className="col-xs-4 col-xs-offset-4">
             <LoginBox>
-                <Ionicon icon="ion-happy-outline" color="white" fontSize="150px"/>
+                <img style={logoStyle} src={logo} alt="Nemesis"/>
                 <LoginForm/>
             </LoginBox>
           </div>
