@@ -30,11 +30,11 @@ class UserReportChart extends React.Component {
   }
 
   _getLabels() {
-    return this.props.reports.map(report => report.reported_at.split(' ')[0])
+    return this.props.reports.map(report => report.reported.split(' ')[0])
   }
 
   _getReporHappiness() {
-    return this.props.reports.map(report => report.status_level)
+    return this.props.reports.map(report => report.status)
   }
 
 }

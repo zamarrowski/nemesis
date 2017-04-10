@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from models.report import UserStatusReport
+from common.utils import get_options
 
-login_message = UserStatusReport.get_login_message()
-help_message = u'use (x: comments)'
+initial = u'Hi! How do you feeling today?\n'
+options = get_options()
+
+example = 'ex, 3: I am tired'
+help = u'use (x: comments)'
+
+poll = '{}{}{}'.format(initial, options, example)
 dashboard = u' http://localhost/'
-success_message = u'Thank you! {dashboard}'.format(dashboard=dashboard)
+success = u'Thank you! {dashboard}'.format(dashboard=dashboard)

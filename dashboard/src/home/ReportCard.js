@@ -29,9 +29,9 @@ class ReportCard extends React.Component {
       <div>
         <Card>
           <CardHeader
-            title={this._getTextFeeling(this.props.report.status_level, this.props.report.user.username)}
+            title={this._getTextFeeling(this.props.report.status, this.props.report.user.username)}
             avatar={this.props.report.user.avatar}
-            subtitle={`Reported at ${this.props.report.reported_at}`}
+            subtitle={`Reported at ${this.props.report.reported}`}
           />
           <CardActions>
             <Link to={"/user/" + this.props.report.user.slack_id + "/reports"}><FlatButton label="Reports" style={flatButtonStyles} /></Link>
