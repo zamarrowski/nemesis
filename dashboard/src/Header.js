@@ -5,17 +5,20 @@ import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import Ionicon from 'react-ionicons'
 import { browserHistory } from 'react-router'
+
 import colors from './common/colors'
+import logo from './common/logo_name.png'
+
+const appBarStyle = { backgroundColor: colors.main }
+const logoStyle = { height: '50px' }
 
 class Header extends React.Component {
   render() {
-    const iconStyle = { marginTop: '5px' }
-    const appBarStyle = { backgroundColor: colors.main }
     return(
-      <AppBar title="Nemesis"
+      <AppBar
         style={appBarStyle}
         iconElementLeft={
-          <Ionicon icon="ion-happy-outline" style={iconStyle} color="white" fontSize="40px"/>
+          <img style={logoStyle} src={logo} alt="Nemesis"/>
         }
         iconElementRight={
           <IconMenu
