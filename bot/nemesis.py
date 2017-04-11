@@ -8,7 +8,6 @@ from slackclient import SlackClient
 from bot import messages
 from common.config import options
 from models.user import UserSlack
-from models.report import UserStatusReport
 
 
 class SlackClientNemesis(object):
@@ -54,17 +53,18 @@ class Nemesis(SlackClientNemesis):
                     for event in self.slack_client.rtm_read():
                         logging.debug(event)
                         event_type = self.handler_event(event)
-                        user = UserSlack.get(self.get_user_info(event['user']), create=True)
-                        if event_type == 'user_login' and user.get_current_report() is None:
-                            self.post_message(event['user'], messages.poll)
-                        elif event_type == 'user_message':
-                            status, comments = self.get_status(event['text'])
-                            if status is not None:
-                                user.update_report(**{'status': status, 'comments': comments})
-                                self.post_message(event['user'], text=messages.success)
-                            else:
-                                self.post_message(event['user'], text=messages.help)
-                        time.sleep(0.5)
+                        if 'user' in event:
+                            user = UserSlack.get(self.get_user_info(event['user']), create=True)
+                            if event_type == 'user_login' and user.get_current_report() is None:
+                                self.post_message(event['user'], messages.poll)
+                            elif event_type == 'user_message':
+                                status, comments = self.get_status(event['text'])
+                                if status is not None:
+                                    user.update_report(**{'status': status, 'comments': comments})
+                                    self.post_message(event['user'], text=messages.success)
+                                else:
+                                    self.post_message(event['user'], text=messages.help)
+                        time.sleep(0.3)
                 except KeyboardInterrupt:
                     logging.info('Disconnected. Bye bye Nemesis')
                     break
