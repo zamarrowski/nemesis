@@ -8,7 +8,6 @@ from slackclient import SlackClient
 from bot import messages
 from common.config import options
 from models.user import UserSlack
-from models.report import UserStatusReport
 
 
 class SlackClientNemesis(object):
@@ -53,16 +52,19 @@ class Nemesis(SlackClientNemesis):
                 try:
                     for event in self.slack_client.rtm_read():
                         logging.debug(event)
-                        event_type = self.get_event_type(event)
-                        if event_type == 'user_login' and UserSlack.has_user_reported(event['user']) is False:
-                            self.post_message(event['user'], messages.login_message)
-                        elif event_type == 'user_post_message':
-                            status, comments = UserStatusReport.get_status(event['text'])
-                            if status is not None:
-                                self.user_report_status(event['user'], status, comments)
-                            else:
-                                self.post_message(event['user'], text=messages.help_message)
-                        time.sleep(0.5)
+                        event_type = self.handler_event(event)
+                        if 'user' in event:
+                            user = UserSlack.get(self.get_user_info(event['user']), create=True)
+                            if event_type == 'user_login' and user.get_current_report() is None:
+                                self.post_message(event['user'], messages.poll)
+                            elif event_type == 'user_message':
+                                status, comments = self.get_status(event['text'])
+                                if status is not None:
+                                    user.update_report(**{'status': status, 'comments': comments})
+                                    self.post_message(event['user'], text=messages.success)
+                                else:
+                                    self.post_message(event['user'], text=messages.help)
+                        time.sleep(0.3)
                 except KeyboardInterrupt:
                     logging.info('Disconnected. Bye bye Nemesis')
                     break
@@ -71,14 +73,25 @@ class Nemesis(SlackClientNemesis):
         else:
             logging.error('Cannot connect to Nemesis bot. Is the token correct?')
 
-    def get_event_type(self, event):
+    def handler_event(self, event):
         if event['type'] == 'message':
             channel = self.get_channel_info(event['channel'])
             if channel['ok'] is False and event['user'] != self.bot_id:
-                return 'user_post_message'
+                return 'user_message'
         if event['type'] == 'presence_change' and event['presence'] == 'active':
             return 'user_login'
 
     def user_report_status(self, user, status, comments=None):
         UserSlack.report_status(self.get_user_info(user), status, comments)
-        self.post_message(user, text=messages.success_message)
+        self.post_message(user, text=messages.success)
+
+    @staticmethod
+    def get_status(text):
+        text = text.split(':')
+        status = text[0]
+        if status.isdigit() is False or int(status) not in range(1, 6):
+            return None, None
+        comments = None
+        if len(text) > 1:
+            comments = text[1]
+            return int(status), comments

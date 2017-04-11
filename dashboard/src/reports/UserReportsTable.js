@@ -39,8 +39,8 @@ class UserReportCard extends React.Component {
           <TableBody displayRowCheckbox={false}>
             {this.props.reports.map((report, key) => (
               <TableRow key={key}>
-                <TableRowColumn>{report.status_level}</TableRowColumn>
-                <TableRowColumn>{report.reported_at}</TableRowColumn>
+                <TableRowColumn>{report.status}</TableRowColumn>
+                <TableRowColumn>{report.reported}</TableRowColumn>
                 <TableRowColumn>
                   {report.comments ? <FlatButton label="See comments" style={flatButtonStyles} onClick={this._showCommentsModal.bind(this, report)} /> : ''}
                 </TableRowColumn>

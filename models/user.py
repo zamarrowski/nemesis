@@ -1,9 +1,19 @@
 # -*- coding: utf-8 -*-
+import pytz
 
-import datetime
+from datetime import datetime, timedelta
 
+from mongoengine.queryset.visitor import Q
 from mongoengine import DynamicDocument, fields
 from mongoengine.errors import DoesNotExist
+
+from common.config import options
+
+
+def get_interval_date(date):
+    min_date = datetime.combine(date, datetime.min.time())
+    max_date = min_date + timedelta(days=1)
+    return min_date, max_date
 
 
 class UserSlack(DynamicDocument):
@@ -12,57 +22,31 @@ class UserSlack(DynamicDocument):
     realname = fields.StringField(required=True)
     avatar = fields.StringField(required=False)
 
-    def serialize(self):
-        return {
-            'slack_id': self.slack_id,
-            'username': self.username,
-            'realname': self.realname,
-            'avatar': self.avatar
-        }
-
-    def update(self, user):
-        self.username = user['username']
-        self.realname = user['realname']
-        self.avatar = user['avatar']
-        self.save()
-
     @staticmethod
-    def get_user(slack_id):
+    def get(user, create=False):
         try:
-            return UserSlack.objects.get(slack_id=slack_id)
+            return UserSlack.objects.get(slack_id=user['slack_id'])
         except DoesNotExist:
-            return None
+            if create is True:
+                return UserSlack(**user).save()
 
-    @staticmethod
-    def has_user_reported(user):
-        try:
-            user = UserSlack.objects.get(slack_id=user)
-        except:
-            return False
-        if UserSlack.get_user_status_from_day(user) is not None:
-            return True
-        return False
+    def get_current_report(self):
+        timezone = options.nemesis_timezone
+        current_tz = pytz.timezone(timezone)
+        return self.get_report(datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(current_tz).date())
 
-    @staticmethod
-    def get_user_status_from_day(user, day=None):
+    def get_report(self, date):
         from models.report import UserStatusReport
-        if day is None:
-            day = datetime.datetime.utcnow().date()
-        midnight = datetime.datetime.combine(day, datetime.time(0))
-        tomorrow_midnight = datetime.datetime.combine(day + datetime.timedelta(days=1), datetime.time(0))
-        if len(UserStatusReport.objects.filter(user=user, reported_at__gte=midnight).filter(reported_at__lte=tomorrow_midnight)) > 0:
-            return UserStatusReport.objects.filter(user=user, reported_at__gte=midnight).filter(reported_at__lte=tomorrow_midnight)[0]
+        min_date, max_date = get_interval_date(date)
+        reports = UserStatusReport.objects.filter(user=self)
+        filter_date = Q(reported_at__gte=min_date) & Q(reported_at__lt=max_date)
+        return reports.filter(filter_date)[0] if len(reports.filter(filter_date)) > 0 else None
 
-    @staticmethod
-    def report_status(user, status, comments=None):
+    def update_report(self, **kwargs):
         from models.report import UserStatusReport
-        try:
-            user_slack = UserSlack.objects.get(slack_id=user['slack_id'])
-            user_slack.update(user)
-        except:
-            user_slack = UserSlack(**user).save()
-        user_status_report = UserSlack.get_user_status_from_day(user_slack)
-        if user_status_report is not None:
-            user_status_report.update(status, comments)
+        user_report = self.get_current_report()
+        kwargs['reported_at'] = datetime.utcnow()
+        if user_report is not None:
+            user_report.update(**kwargs)
         else:
-            UserStatusReport(user=user_slack, status=status, reported_at=datetime.datetime.utcnow(), comments=comments).save()
+            UserStatusReport(user=self, **kwargs).save()

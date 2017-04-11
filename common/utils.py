@@ -5,7 +5,15 @@ import argparse
 
 from mongoengine import connect
 
+from common import constants
 from common.config import options
+
+
+def get_options():
+    options = ''
+    for status in constants.USER_STATUS:
+        options += '{level}. {description}\n'.format(level=str(status[0]), description=status[1])
+    return options
 
 
 def load_options():
