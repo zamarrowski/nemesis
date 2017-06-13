@@ -33,6 +33,9 @@ class SlackClientNemesis(object):
             'realname': user['real_name']
         }
 
+    def get_users(self):
+        return self.slack_client.api_call('users.list')['members']
+
 
 class Nemesis(SlackClientNemesis):
 

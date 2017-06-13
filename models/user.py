@@ -21,6 +21,7 @@ class UserSlack(DynamicDocument):
     username = fields.StringField(required=True)
     realname = fields.StringField(required=True)
     avatar = fields.StringField(required=False)
+    active = fields.BooleanField(default=False)
 
     @staticmethod
     def get(user, create=False):
