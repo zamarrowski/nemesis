@@ -13,7 +13,7 @@ from api.serializers.user import UserSlackListSerializer
 @authorize(request)
 def users():
     _all = request.query.all
-    if _all is not None:
+    if _all is not '':
         _all = json.loads(_all)
     if _all is True:
         users = Nemesis().get_users()
