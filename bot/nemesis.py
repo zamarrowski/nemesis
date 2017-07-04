@@ -30,7 +30,7 @@ class SlackClientNemesis(object):
             'slack_id': user['id'],
             'username': user['name'],
             'avatar': user['profile']['image_192'],
-            'realname': user['real_name']
+            'realname': user['real_name'] if 'real_name' in user else user['profile']['real_name']
         }
 
     def get_users(self):
@@ -58,7 +58,7 @@ class Nemesis(SlackClientNemesis):
                         event_type = self.handler_event(event)
                         if 'user' in event:
                             user = UserSlack.get(self.get_user_info(event['user']), create=True)
-                            if event_type == 'user_login' and user.get_current_report() is None:
+                            if event_type == 'user_login' and user.active and user.get_current_report() is None:
                                 self.post_message(event['user'], messages.poll)
                             elif event_type == 'user_message':
                                 status, comments = self.get_status(event['text'])
